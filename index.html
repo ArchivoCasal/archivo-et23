@@ -301,8 +301,10 @@
     overflow: hidden;
     position: relative;
   }
-  .gallery-thumb-icon { font-size: 2.5rem; opacity: 0.3; }
+  .gallery-thumb-icon { font-size: 2.5rem; opacity: 0.3; display: none; }
   .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-thumb img.error { display: none; }
+  .gallery-thumb img.error + .gallery-thumb-icon { display: block; }
   .gallery-info { padding: 12px 14px; }
   .gallery-type {
     font-family: 'IBM Plex Mono', monospace;
@@ -752,9 +754,14 @@ function filterGallery() {
     grid.innerHTML = '<div class="no-results">No se encontraron resultados para esa búsqueda.</div>';
     return;
   }
-  grid.innerHTML = filtered.map(item => `
+  grid.innerHTML = filtered.map(item => {
+    const thumb = item.type === 'diapositiva' || item.type === 'foto'
+      ? `<img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" alt="${item.title}" loading="lazy" onerror="this.classList.add('error')">`
+      : '';
+    return `
     <div class="gallery-item" data-id="${item.id}">
       <div class="gallery-thumb">
+        ${thumb}
         <span class="gallery-thumb-icon">${TYPE_ICONS[item.type] || '📦'}</span>
         <a class="gallery-link" href="${item.url}" target="_blank">
           <span class="gallery-link-label">Abrir en Drive</span>
@@ -765,8 +772,8 @@ function filterGallery() {
         <div class="gallery-title">${item.title}</div>
         <div class="gallery-date">${item.date}</div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function closeLightbox(e) {
