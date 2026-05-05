@@ -8,480 +8,154 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --ink:       #1A1208;
-    --sepia:     #8B6914;
-    --sepia-mid: #C9A84C;
-    --sepia-lt:  #F5EDD6;
-    --paper:     #FAF7F0;
-    --paper-mid: #F0E8D0;
-    --accent:    #3D6B4F;
-    --accent-lt: #E8F0EB;
-    --warm-gray: #6B6355;
-    --border:    rgba(139,105,20,0.2);
-    --shadow:    0 2px 24px rgba(26,18,8,0.07);
+    --navy:      #0A1628;
+    --navy-mid:  #0D1F3C;
+    --navy-lt:   #142238;
+    --blue:      #378ADD;
+    --blue-mid:  #85B7EB;
+    --blue-lt:   #B5D4F4;
+    --blue-pale: #E6F1FB;
+    --white:     #FFFFFF;
+    --off-white: #F4F8FD;
+    --border:    rgba(55,138,221,0.15);
+    --border-mid:rgba(55,138,221,0.3);
+    --warm-gray: #8899AA;
+    --shadow:    0 2px 24px rgba(10,22,40,0.18);
   }
-
   html { scroll-behavior: smooth; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--off-white); color: var(--navy); font-size: 16px; line-height: 1.7; }
 
-  body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1.7;
-  }
-
-  /* ── TOPBAR ── */
-  .topbar {
-    background: var(--ink);
-    color: var(--sepia-lt);
-    padding: 10px 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .topbar-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    color: var(--sepia-lt);
-    text-decoration: none;
-  }
-  .topbar-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    color: rgba(245,237,214,0.45);
-    text-transform: uppercase;
-    display: block;
-    margin-top: 1px;
-  }
+  /* TOPBAR */
+  .topbar { background: var(--navy); padding: 10px 2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(55,138,221,0.2); }
+  .topbar-brand { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--blue-lt); text-decoration: none; }
+  .topbar-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.15em; color: rgba(181,212,244,0.4); text-transform: uppercase; display: block; margin-top: 1px; }
   .topbar-nav { display: flex; gap: 1.5rem; align-items: center; }
-  .topbar-nav a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: rgba(245,237,214,0.6);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.15s;
-  }
-  .topbar-nav a:hover { color: var(--sepia-lt); }
-  .topbar-nav a.nav-cta {
-    border: 1px solid rgba(201,168,76,0.5);
-    padding: 5px 14px;
-    border-radius: 2px;
-    color: var(--sepia-mid);
-  }
-  .topbar-nav a.nav-cta:hover { background: rgba(201,168,76,0.1); color: var(--sepia-lt); }
+  .topbar-nav a { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: rgba(181,212,244,0.55); text-decoration: none; text-transform: uppercase; transition: color 0.15s; }
+  .topbar-nav a:hover { color: var(--blue-lt); }
+  .topbar-nav a.nav-cta { border: 1px solid rgba(55,138,221,0.4); padding: 5px 14px; border-radius: 2px; color: var(--blue-mid); }
+  .topbar-nav a.nav-cta:hover { background: rgba(55,138,221,0.1); color: var(--blue-lt); }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--ink);
-    padding: 5rem 2rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 39px,
-      rgba(201,168,76,0.06) 39px,
-      rgba(201,168,76,0.06) 40px
-    );
-  }
-  .hero-eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--sepia-mid);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    position: relative;
-  }
-  .hero-eyebrow::before, .hero-eyebrow::after {
-    content: '——';
-    margin: 0 1rem;
-    opacity: 0.4;
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    color: var(--sepia-lt);
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-    position: relative;
-  }
-  .hero-title em {
-    font-style: italic;
-    color: var(--sepia-mid);
-  }
-  .hero-subtitle {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: rgba(245,237,214,0.4);
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-  .hero-desc {
-    font-size: 15px;
-    color: rgba(245,237,214,0.65);
-    max-width: 540px;
-    margin: 0 auto 2.5rem;
-    font-weight: 300;
-    line-height: 1.8;
-    position: relative;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
-  }
-  .btn-primary {
-    background: var(--sepia);
-    color: var(--sepia-lt);
-    padding: 12px 28px;
-    border: none;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    display: inline-block;
-  }
+  /* HERO */
+  .hero { background: var(--navy-mid); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(55,138,221,0.04) 39px, rgba(55,138,221,0.04) 40px); }
+  .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center top, rgba(55,138,221,0.08) 0%, transparent 70%); }
+  .hero-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--blue); text-transform: uppercase; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+  .hero-eyebrow::before, .hero-eyebrow::after { content: '——'; margin: 0 1rem; opacity: 0.35; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--white); line-height: 1.1; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+  .hero-title em { font-style: italic; color: var(--blue-mid); }
+  .hero-subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: rgba(181,212,244,0.35); text-transform: uppercase; margin-bottom: 2rem; position: relative; z-index: 1; }
+  .hero-desc { font-size: 15px; color: rgba(181,212,244,0.6); max-width: 540px; margin: 0 auto 2.5rem; font-weight: 300; line-height: 1.8; position: relative; z-index: 1; }
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .btn-primary { background: var(--blue); color: white; padding: 12px 28px; border: none; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: opacity 0.15s; display: inline-block; }
   .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary {
-    border: 1px solid rgba(201,168,76,0.4);
-    color: rgba(245,237,214,0.7);
-    padding: 12px 28px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.15s;
-    display: inline-block;
-  }
-  .btn-secondary:hover { border-color: var(--sepia-mid); color: var(--sepia-lt); }
+  .btn-secondary { border: 1px solid rgba(55,138,221,0.4); color: rgba(181,212,244,0.7); padding: 12px 28px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; transition: all 0.15s; display: inline-block; }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue-lt); }
 
-  /* ── STATS STRIP ── */
-  .stats-strip {
-    background: var(--sepia-lt);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 0;
-  }
-  .stat-item {
-    text-align: center;
-    padding: 0 2.5rem;
-    border-right: 1px solid var(--border);
-  }
+  /* STATS */
+  .stats-strip { background: var(--navy); border-top: 1px solid rgba(55,138,221,0.15); border-bottom: 1px solid rgba(55,138,221,0.15); padding: 1.5rem 2rem; display: flex; justify-content: center; }
+  .stat-item { text-align: center; padding: 0 2.5rem; border-right: 1px solid rgba(55,138,221,0.15); }
   .stat-item:last-child { border-right: none; }
-  .stat-n {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--sepia);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .stat-l {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--warm-gray);
-    text-transform: uppercase;
-  }
+  .stat-n { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--blue); display: block; line-height: 1; margin-bottom: 4px; }
+  .stat-l { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: var(--warm-gray); text-transform: uppercase; }
 
-  /* ── SECTION ── */
+  /* SECTIONS */
   .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
   .section-header { margin-bottom: 2.5rem; }
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--sepia);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.2em; color: var(--blue); text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    color: var(--ink);
-    line-height: 1.2;
-  }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2.2rem); color: var(--navy); line-height: 1.2; }
   .section-desc { font-size: 14px; color: var(--warm-gray); margin-top: 8px; max-width: 560px; }
 
-  /* ── SEARCH ── */
-  .search-bar-wrap {
-    background: var(--sepia-lt);
-    border: 1px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  .search-icon { color: var(--sepia-mid); font-size: 16px; flex-shrink: 0; }
-  #searchInput {
-    border: none;
-    background: transparent;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 15px;
-    color: var(--ink);
-    flex: 1;
-    outline: none;
-  }
-  #searchInput::placeholder { color: rgba(139,105,20,0.4); }
-  .filter-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    background: white;
-    cursor: pointer;
-    color: var(--warm-gray);
-    text-transform: uppercase;
-    transition: all 0.12s;
-  }
-  .filter-tag:hover, .filter-tag.active {
-    background: var(--sepia);
-    color: var(--sepia-lt);
-    border-color: var(--sepia);
-  }
+  /* DECADE TABS */
+  .decade-tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .decade-tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.08em; padding: 10px 20px; border: none; background: none; cursor: pointer; color: var(--warm-gray); text-transform: uppercase; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; transition: color 0.12s; }
+  .decade-tab:hover { color: var(--blue); }
+  .decade-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
 
-  /* ── GALLERY GRID ── */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .gallery-item {
-    background: var(--paper);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.15s;
-    position: relative;
-  }
+  /* SEARCH BAR */
+  .search-bar-wrap { background: var(--navy); border: 1px solid rgba(55,138,221,0.2); padding: 1rem 1.5rem; display: flex; gap: 12px; align-items: center; margin-bottom: 1.5rem; }
+  .search-icon { color: var(--blue); font-size: 14px; flex-shrink: 0; }
+  #searchInput { border: none; background: transparent; font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; color: var(--blue-lt); flex: 1; outline: none; }
+  #searchInput::placeholder { color: rgba(133,183,235,0.3); }
+
+  /* GALLERY */
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1px; background: rgba(55,138,221,0.1); border: 1px solid var(--border); }
+  .gallery-section { display: none; }
+  .gallery-section.active { display: contents; }
+  .gallery-item { background: var(--white); overflow: hidden; cursor: pointer; transition: transform 0.15s; position: relative; }
   .gallery-item:hover { z-index: 2; transform: scale(1.02); box-shadow: var(--shadow); }
-  .gallery-thumb {
-    height: 160px;
-    background: var(--paper-mid);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-  .gallery-thumb-icon { font-size: 2.5rem; opacity: 0.3; display: none; }
+  .gallery-thumb { height: 150px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
   .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-thumb img.error { display: none; }
-  .gallery-thumb img.error + .gallery-thumb-icon { display: block; }
-  .gallery-info { padding: 12px 14px; }
-  .gallery-type {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--sepia);
-    margin-bottom: 4px;
-  }
-  .gallery-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; margin-bottom: 3px; }
-  .gallery-date { font-size: 11px; color: var(--warm-gray); font-family: 'IBM Plex Mono', monospace; }
-  .gallery-link {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(26,18,8,0);
-    transition: background 0.15s;
-    text-decoration: none;
-  }
-  .gallery-link:hover { background: rgba(26,18,8,0.45); }
-  .gallery-link-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: white;
-    background: var(--sepia);
-    padding: 6px 14px;
-    opacity: 0;
-    transition: opacity 0.15s;
-    text-transform: uppercase;
-  }
-  .gallery-link:hover .gallery-link-label { opacity: 1; }
+  .gallery-thumb img[data-error] { display: none; }
+  .gallery-thumb-icon { font-size: 2rem; opacity: 0.2; position: absolute; }
+  .gallery-overlay { position: absolute; inset: 0; background: rgba(10,22,40,0); transition: background 0.15s; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+  .gallery-overlay:hover { background: rgba(10,22,40,0.5); }
+  .gallery-overlay-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: white; background: var(--blue); padding: 5px 12px; opacity: 0; transition: opacity 0.15s; text-transform: uppercase; }
+  .gallery-overlay:hover .gallery-overlay-label { opacity: 1; }
+  .gallery-info { padding: 10px 12px; }
+  .gallery-decade { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+  .gallery-title { font-size: 12px; font-weight: 500; color: var(--navy); line-height: 1.3; margin-bottom: 2px; }
+  .gallery-date { font-size: 10px; color: var(--warm-gray); font-family: 'IBM Plex Mono', monospace; }
 
-  /* ── CARPETAS ── */
-  .folders-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .folder-card {
-    border: 1px solid var(--border);
-    background: white;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    transition: all 0.12s;
-  }
-  .folder-card:hover { border-color: var(--sepia); background: var(--sepia-lt); }
-  .folder-card-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .folder-card-info {}
-  .folder-card-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
-  .folder-card-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--warm-gray); letter-spacing: 0.05em; }
-  .folder-card-arrow { margin-left: auto; color: var(--sepia-mid); font-size: 14px; }
+  /* VIDEOS */
+  .videos-section { background: var(--navy); padding: 4rem 2rem; }
+  .videos-inner { max-width: 1100px; margin: 0 auto; }
+  .videos-section .section-label { color: var(--blue-mid); }
+  .videos-section .section-label::after { background: rgba(55,138,221,0.2); }
+  .videos-section .section-title { color: var(--white); }
+  .videos-section .section-desc { color: var(--warm-gray); }
+  .videos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: rgba(55,138,221,0.15); border: 1px solid rgba(55,138,221,0.2); margin-top: 2rem; }
+  .video-card { background: var(--navy-lt); padding: 1.25rem; transition: background 0.12s; }
+  .video-card:hover { background: #1A2F4A; }
+  .video-icon { font-size: 1.5rem; margin-bottom: 10px; display: block; }
+  .video-title { font-size: 13px; font-weight: 500; color: var(--blue-lt); margin-bottom: 4px; line-height: 1.3; }
+  .video-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--warm-gray); letter-spacing: 0.04em; margin-bottom: 12px; }
+  .video-btn { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--blue); border: 1px solid rgba(55,138,221,0.3); padding: 5px 12px; text-decoration: none; text-transform: uppercase; transition: all 0.12s; }
+  .video-btn:hover { background: rgba(55,138,221,0.1); border-color: var(--blue); }
 
-  /* ── ACERCA DEL ARCHIVO ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
+  /* CARPETAS */
+  .folders-strip { background: var(--blue-pale); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .folders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 1.5rem; }
+  .folder-card { background: white; padding: 1.1rem 1.4rem; display: flex; align-items: center; gap: 1rem; text-decoration: none; transition: all 0.12s; }
+  .folder-card:hover { background: var(--blue-pale); }
+  .folder-card-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .folder-card-name { font-size: 13px; font-weight: 500; color: var(--navy); margin-bottom: 2px; }
+  .folder-card-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--warm-gray); }
+  .folder-card-arrow { margin-left: auto; color: var(--blue); font-size: 14px; }
+
+  /* HISTORIA */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
   @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
-  .about-text p { font-size: 15px; color: var(--warm-gray); line-height: 1.8; margin-bottom: 1rem; }
-  .about-text p:last-child { margin-bottom: 0; }
-  .about-text strong { color: var(--ink); font-weight: 500; }
-  .timeline { border-left: 2px solid var(--border); padding-left: 1.5rem; }
+  .about-text p { font-size: 15px; color: #445566; line-height: 1.8; margin-bottom: 1rem; }
+  .about-text strong { color: var(--navy); font-weight: 500; }
+  .timeline { border-left: 2px solid var(--border-mid); padding-left: 1.5rem; }
   .timeline-item { margin-bottom: 1.5rem; position: relative; }
-  .timeline-item::before {
-    content: '';
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--sepia-mid);
-    position: absolute;
-    left: -1.9rem;
-    top: 6px;
-  }
-  .timeline-year { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--sepia); margin-bottom: 3px; text-transform: uppercase; }
-  .timeline-text { font-size: 13px; color: var(--warm-gray); line-height: 1.5; }
+  .timeline-item::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); position: absolute; left: -1.9rem; top: 6px; }
+  .timeline-year { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 3px; text-transform: uppercase; }
+  .timeline-text { font-size: 13px; color: #445566; line-height: 1.5; }
 
-  /* ── CONTACTO / COLABORÁ ── */
-  .contact-section {
-    background: var(--ink);
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-  .contact-section .section-label { justify-content: center; color: var(--sepia-mid); }
+  /* CONTACTO */
+  .contact-section { background: var(--navy-mid); padding: 4rem 2rem; text-align: center; border-top: 1px solid rgba(55,138,221,0.15); }
+  .contact-section .section-label { justify-content: center; color: var(--blue-mid); }
   .contact-section .section-label::after { display: none; }
-  .contact-section .section-title { color: var(--sepia-lt); margin-bottom: 1rem; }
-  .contact-section p { font-size: 14px; color: rgba(245,237,214,0.55); max-width: 520px; margin: 0 auto 2rem; line-height: 1.8; }
-  .contact-ways {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-  }
-  .contact-way {
-    border: 1px solid rgba(201,168,76,0.25);
-    padding: 1.25rem 1.5rem;
-    flex: 1;
-    min-width: 180px;
-    text-align: left;
-  }
-  .contact-way-icon { font-size: 1.2rem; margin-bottom: 8px; display: block; }
-  .contact-way-title { font-size: 13px; font-weight: 500; color: var(--sepia-lt); margin-bottom: 4px; }
-  .contact-way-desc { font-size: 11px; color: rgba(245,237,214,0.4); line-height: 1.5; }
-  .contact-email {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--sepia-mid);
-    letter-spacing: 0.05em;
-  }
+  .contact-section .section-title { color: white; margin-bottom: 1rem; }
+  .contact-section p { font-size: 14px; color: rgba(181,212,244,0.5); max-width: 520px; margin: 0 auto 2rem; line-height: 1.8; }
+  .contact-ways { display: flex; gap: 1px; justify-content: center; flex-wrap: wrap; max-width: 700px; margin: 0 auto 2rem; background: rgba(55,138,221,0.1); }
+  .contact-way { border: none; padding: 1.25rem 1.5rem; flex: 1; min-width: 180px; text-align: left; background: var(--navy-lt); }
+  .contact-way-icon { font-size: 1.1rem; margin-bottom: 8px; display: block; }
+  .contact-way-title { font-size: 13px; font-weight: 500; color: var(--blue-lt); margin-bottom: 4px; }
+  .contact-way-desc { font-size: 11px; color: var(--warm-gray); line-height: 1.5; }
+  .contact-email { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--blue); letter-spacing: 0.05em; }
 
-  /* ── FOOTER ── */
-  footer {
-    background: #111008;
-    padding: 2rem;
-    text-align: center;
-    border-top: 1px solid rgba(201,168,76,0.1);
-  }
-  footer p { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(245,237,214,0.25); text-transform: uppercase; line-height: 2; }
-  footer a { color: rgba(201,168,76,0.5); text-decoration: none; }
+  /* FOOTER */
+  footer { background: var(--navy); padding: 2rem; text-align: center; border-top: 1px solid rgba(55,138,221,0.1); }
+  footer p { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(181,212,244,0.2); text-transform: uppercase; line-height: 2; }
+  footer a { color: rgba(55,138,221,0.5); text-decoration: none; }
 
-  /* ── LIGHTBOX ── */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,8,4,0.95);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox-inner { max-width: 800px; width: 100%; text-align: center; position: relative; }
-  .lightbox-close {
-    position: absolute;
-    top: -2rem;
-    right: 0;
-    background: none;
-    border: none;
-    color: rgba(245,237,214,0.5);
-    font-size: 20px;
-    cursor: pointer;
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.05em;
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-  .lightbox-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--sepia-lt); margin-bottom: 6px; }
-  .lightbox-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(245,237,214,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-  .lightbox-drive-btn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    border: 1px solid rgba(201,168,76,0.4);
-    color: var(--sepia-mid);
-    padding: 10px 24px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.12s;
-  }
-  .lightbox-drive-btn:hover { background: rgba(201,168,76,0.1); }
+  /* NO RESULTS */
+  .no-results { text-align: center; padding: 3rem; color: var(--warm-gray); font-size: 14px; grid-column: 1/-1; background: white; }
 
-  /* ── NO-RESULTS ── */
-  .no-results { text-align: center; padding: 3rem; color: var(--warm-gray); font-size: 14px; grid-column: 1/-1; }
-
-  /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .topbar-nav { display: none; }
     .stats-strip { flex-wrap: wrap; gap: 1rem; }
@@ -492,66 +166,101 @@
 </head>
 <body>
 
-<!-- TOPBAR -->
 <header class="topbar">
   <a href="#" class="topbar-brand">
     Escuela Técnia N°23 — Casal Calviño
     <span class="topbar-sub">Archivo Histórico · Ciudad de Buenos Aires</span>
   </a>
   <nav class="topbar-nav">
-    <a href="#galeria">Galería</a>
-    <a href="#carpetas">Carpetas</a>
-    <a href="#acerca">Historia</a>
+    <a href="#fotos">Fotografías</a>
+    <a href="#videos">Videos</a>
+    <a href="#carpetas">Drive</a>
+    <a href="#historia">Historia</a>
     <a href="#colabora" class="nav-cta">Colaborá</a>
   </nav>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <p class="hero-eyebrow">Proyecto de memoria institucional</p>
   <h1 class="hero-title">Archivo Histórico<br><em>Casal Calviño</em></h1>
   <p class="hero-subtitle">Escuela Técnia N°23 · Ciudad de Buenos Aires · En construcción</p>
   <p class="hero-desc">Una colección de fotografías, documentos y testimonios que preservan la historia de nuestra escuela. Un proyecto colectivo abierto a la comunidad.</p>
   <div class="hero-actions">
-    <a href="#galeria" class="btn-primary">Explorar el archivo</a>
+    <a href="#fotos" class="btn-primary">Explorar el archivo</a>
     <a href="#colabora" class="btn-secondary">Donar materiales</a>
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-strip">
-  <div class="stat-item"><span class="stat-n">40+</span><span class="stat-l">Fotografías</span></div>
-  <div class="stat-item"><span class="stat-n">3</span><span class="stat-l">Colecciones</span></div>
+  <div class="stat-item"><span class="stat-n">80+</span><span class="stat-l">Fotografías</span></div>
+  <div class="stat-item"><span class="stat-n">3</span><span class="stat-l">Décadas</span></div>
+  <div class="stat-item"><span class="stat-n">4</span><span class="stat-l">Videos</span></div>
   <div class="stat-item"><span class="stat-n">2024</span><span class="stat-l">Inicio del proyecto</span></div>
-  <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">En crecimiento</span></div>
 </div>
 
-<!-- GALERÍA -->
-<section class="section" id="galeria">
+<!-- FOTOGRAFÍAS -->
+<section class="section" id="fotos">
   <div class="section-header">
-    <div class="section-label">Colección</div>
-    <h2 class="section-title">Galería del archivo</h2>
-    <p class="section-desc">Fotografías y materiales históricos recolectados. Hacé clic en cualquier imagen para ver más detalles y acceder al archivo original.</p>
+    <div class="section-label">Colección fotográfica</div>
+    <h2 class="section-title">Galería de imágenes</h2>
+    <p class="section-desc">Fotografías organizadas por década. Hacé clic en cualquier imagen para abrirla en tamaño completo.</p>
   </div>
 
   <div class="search-bar-wrap">
     <span class="search-icon">⊙</span>
     <input type="text" id="searchInput" placeholder="Buscar por título, fecha, categoría..." oninput="filterGallery()">
   </div>
-  <div class="filter-tags" style="margin-bottom: 1.5rem;">
-    <button class="filter-tag active" onclick="setFilter('', this)">Todos</button>
-    <button class="filter-tag" onclick="setFilter('diapositiva', this)">Diapositivas</button>
-    <button class="filter-tag" onclick="setFilter('foto', this)">Fotografías</button>
-    <button class="filter-tag" onclick="setFilter('video', this)">Videos</button>
-    <button class="filter-tag" onclick="setFilter('documento', this)">Documentos</button>
+
+  <div class="decade-tabs">
+    <button class="decade-tab active" onclick="setDecade('all', this)">Todas</button>
+    <button class="decade-tab" onclick="setDecade('70s', this)">Años 70</button>
+    <button class="decade-tab" onclick="setDecade('90s', this)">Años 90</button>
+    <button class="decade-tab" onclick="setDecade('edificio', this)">Edificio</button>
   </div>
 
   <div class="gallery-grid" id="galleryGrid"></div>
 </section>
 
+<!-- VIDEOS -->
+<section class="videos-section" id="videos">
+  <div class="videos-inner">
+    <div class="section-header">
+      <div class="section-label">Archivo audiovisual</div>
+      <h2 class="section-title">Videos</h2>
+      <p class="section-desc">Registros audiovisuales de la historia y la vida institucional de la escuela.</p>
+    </div>
+    <div class="videos-grid">
+      <div class="video-card">
+        <span class="video-icon">🎬</span>
+        <div class="video-title">Documental 50° Aniversario</div>
+        <div class="video-meta">MP4 · 2.1 GB · 2026</div>
+        <a class="video-btn" href="https://drive.google.com/file/d/13SQ9IJgArmSzoqfn1bFXHD1IBpd_gqUC/view" target="_blank">Ver en Drive →</a>
+      </div>
+      <div class="video-card">
+        <span class="video-icon">🎬</span>
+        <div class="video-title">Video fotos para pantalla</div>
+        <div class="video-meta">MP4 · 307 MB · 2022</div>
+        <a class="video-btn" href="https://drive.google.com/file/d/14Ai9OxsujClsrqwxTboM48lXC1jlnlHn/view" target="_blank">Ver en Drive →</a>
+      </div>
+      <div class="video-card">
+        <span class="video-icon">🎬</span>
+        <div class="video-title">Casal Calviño — Histórico</div>
+        <div class="video-meta">MP4 · 205 MB · 2021</div>
+        <a class="video-btn" href="https://drive.google.com/file/d/1KYzo-bVHIqG-2J4iNL42tsn5vP18lqE0/view" target="_blank">Ver en Drive →</a>
+      </div>
+      <div class="video-card">
+        <span class="video-icon">🎬</span>
+        <div class="video-title">Casal Calviño — Actual</div>
+        <div class="video-meta">MP4 · 213 MB · 2021</div>
+        <a class="video-btn" href="https://drive.google.com/file/d/13KRWRwyM7rc18pvWmPnZ1wjFpo1jPyUi/view" target="_blank">Ver en Drive →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CARPETAS DRIVE -->
-<section style="background: var(--sepia-lt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section" id="carpetas" style="padding-top: 3rem; padding-bottom: 3rem;">
+<section class="folders-strip" id="carpetas">
+  <div class="section" style="padding-top: 3rem; padding-bottom: 3rem;">
     <div class="section-header" style="margin-bottom: 1.5rem;">
       <div class="section-label">Google Drive</div>
       <h2 class="section-title">Carpetas del archivo</h2>
@@ -560,42 +269,32 @@
     <div class="folders-grid">
       <a class="folder-card" href="https://drive.google.com/drive/folders/1GNGqtwP-3NTEbs9Ov9eU1Fk6hwmKDyjH" target="_blank">
         <span class="folder-card-icon">📷</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">FOTOS</div>
-          <div class="folder-card-meta">Fotografías · Diapositivas digitalizadas</div>
-        </div>
+        <div><div class="folder-card-name">01 — Fotografías</div><div class="folder-card-meta">70s · 90s · Edificio · 80+ imágenes</div></div>
         <span class="folder-card-arrow">→</span>
       </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/14sE3xPR6OaDkYUsjMl_XIHZZHJCeU0LM" target="_blank">
-        <span class="folder-card-icon">🎞</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">FOTOS DIAPOSITIVAS — Primera versión</div>
-          <div class="folder-card-meta">40+ imágenes · Digitalización 2024</div>
-        </div>
+      <a class="folder-card" href="https://drive.google.com/drive/folders/1EDAZ3FBB6Fmgk8oAFG_gsBGNCqnG3K5L" target="_blank">
+        <span class="folder-card-icon">🕰</span>
+        <div><div class="folder-card-name">Años 70</div><div class="folder-card-meta">c.1971 · 36+ fotografías</div></div>
+        <span class="folder-card-arrow">→</span>
+      </a>
+      <a class="folder-card" href="https://drive.google.com/drive/folders/1unhVjy0aARR2e71l-sPa7UArlq2rCiIv" target="_blank">
+        <span class="folder-card-icon">🕰</span>
+        <div><div class="folder-card-name">Años 90</div><div class="folder-card-meta">c.1996 · 31+ fotografías</div></div>
+        <span class="folder-card-arrow">→</span>
+      </a>
+      <a class="folder-card" href="https://drive.google.com/drive/folders/1785f0-ZnlREdFETtsWUfMV1MZwlr6H7b" target="_blank">
+        <span class="folder-card-icon">🏛</span>
+        <div><div class="folder-card-name">Edificio</div><div class="folder-card-meta">13 fotografías del edificio</div></div>
         <span class="folder-card-arrow">→</span>
       </a>
       <a class="folder-card" href="https://drive.google.com/drive/folders/1c_zF-eMP6YwmaS3OonUr0RXC7quYowwu" target="_blank">
         <span class="folder-card-icon">🎬</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">VIDEOS</div>
-          <div class="folder-card-meta">Videos institucionales · Actos escolares</div>
-        </div>
+        <div><div class="folder-card-name">02 — Videos</div><div class="folder-card-meta">4 videos institucionales</div></div>
         <span class="folder-card-arrow">→</span>
       </a>
       <a class="folder-card" href="https://drive.google.com/drive/folders/1JtADhwYRe1YNu_2a2sCKu6BXUPj_28qe" target="_blank">
         <span class="folder-card-icon">📄</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">OTROS DOCUMENTOS</div>
-          <div class="folder-card-meta">Documentos históricos · En formación</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank" style="border: 1px solid var(--sepia-mid);">
-        <span class="folder-card-icon">🗄</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">Ver archivo completo</div>
-          <div class="folder-card-meta">Carpeta raíz — ARCHIVO CASAL CALVIÑO</div>
-        </div>
+        <div><div class="folder-card-name">03 — Documentos</div><div class="folder-card-meta">En formación</div></div>
         <span class="folder-card-arrow">→</span>
       </a>
     </div>
@@ -603,16 +302,16 @@
 </section>
 
 <!-- HISTORIA -->
-<section class="section" id="acerca">
+<section class="section" id="historia">
   <div class="section-header">
     <div class="section-label">Historia</div>
     <h2 class="section-title">Sobre la escuela y este archivo</h2>
   </div>
   <div class="about-grid">
     <div class="about-text">
-      <p>La <strong>Escuela Técnia N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con una historia de décadas de formación técnica y compromiso con su comunidad.</p>
-      <p>Este archivo nació de la necesidad de <strong>preservar y dar acceso</strong> a los materiales históricos de la escuela: fotografías, documentos, testimonios de ex alumnos y ex docentes que de otro modo podrían perderse.</p>
-      <p>El proyecto es <strong>abierto y colaborativo</strong>. Si tenés materiales —fotos antiguas, diplomas, actas, recuerdos— podés contribuir al archivo escribiéndonos. Cada aporte enriquece esta memoria colectiva.</p>
+      <p>La <strong>Escuela Técnia N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con décadas de historia en la formación técnica y el compromiso con su comunidad.</p>
+      <p>Este archivo nació de la necesidad de <strong>preservar y dar acceso</strong> a los materiales históricos de la escuela: fotografías, documentos y testimonios de ex alumnos y ex docentes que de otro modo podrían perderse.</p>
+      <p>El proyecto es <strong>abierto y colaborativo</strong>. Si tenés materiales — fotos antiguas, diplomas, actas, recuerdos — podés contribuir escribiéndonos. Cada aporte enriquece esta memoria colectiva.</p>
     </div>
     <div>
       <div class="timeline">
@@ -621,16 +320,16 @@
           <div class="timeline-text">Creación de la Escuela Técnia N°23 en la Ciudad de Buenos Aires.</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-year">Décadas de historia</div>
-          <div class="timeline-text">Generaciones de alumnos y docentes que construyeron la identidad de la institución.</div>
+          <div class="timeline-year">Años 70</div>
+          <div class="timeline-text">Primeras fotografías documentadas de la vida escolar. Talleres, actos y actividades institucionales.</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-year">2024</div>
-          <div class="timeline-text">Primera digitalización de diapositivas históricas. Inicio del proyecto de archivo.</div>
+          <div class="timeline-year">Años 90</div>
+          <div class="timeline-text">Nueva etapa institucional. Ampliación de la oferta educativa y crecimiento de la matrícula.</div>
         </div>
         <div class="timeline-item">
-          <div class="timeline-year">2025 — hoy</div>
-          <div class="timeline-text">Recolección activa de materiales. Contacto con ex alumnos y ex docentes. Construcción del sitio público.</div>
+          <div class="timeline-year">2024 — hoy</div>
+          <div class="timeline-text">Inicio del proyecto de archivo histórico. Digitalización y recopilación activa de materiales.</div>
         </div>
       </div>
     </div>
@@ -662,129 +361,111 @@
   <p class="contact-email">hernan.ricci@bue.edu.ar</p>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <p>Archivo Histórico — Escuela Técnia N°23 Casal Calviño · Ciudad de Buenos Aires</p>
   <p>Proyecto de recuperación de memoria institucional · En construcción permanente</p>
   <p style="margin-top: 8px;"><a href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank">Ver archivo completo en Google Drive</a></p>
 </footer>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-inner">
-    <button class="lightbox-close" onclick="closeLightbox()">✕ Cerrar</button>
-    <p class="lightbox-type" id="lb-type" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--sepia-mid);text-transform:uppercase;margin-bottom:8px;"></p>
-    <h3 class="lightbox-title" id="lb-title"></h3>
-    <p class="lightbox-meta" id="lb-meta"></p>
-    <a class="lightbox-drive-btn" id="lb-link" href="#" target="_blank">Abrir en Google Drive →</a>
-  </div>
-</div>
-
 <script>
-// ── DATOS: todas las fotos de Drive ──
-const items = [
-  { id:'1mZ5kP_rPMvA4ErsVJvbFcHABJvoXNDA8', title:'Diapositiva _MG_9823', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1mZ5kP_rPMvA4ErsVJvbFcHABJvoXNDA8/view' },
-  { id:'1rP3LtWydaf8lY7TjSKZTGFcNL0gq59A4', title:'Diapositiva _MG_9830', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1rP3LtWydaf8lY7TjSKZTGFcNL0gq59A4/view' },
-  { id:'1_iyoPxTd8rUI6WWQKS96q5G0jmEYcgPc', title:'Diapositiva _MG_9830-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1_iyoPxTd8rUI6WWQKS96q5G0jmEYcgPc/view' },
-  { id:'10HwOClgmp6kEoTNZ8QnI-bh5omle_b_S', title:'Diapositiva _MG_9832', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/10HwOClgmp6kEoTNZ8QnI-bh5omle_b_S/view' },
-  { id:'1FVb8IJc9UBKojqDqExNcZBlhE22qYqOk', title:'Diapositiva _MG_9832-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1FVb8IJc9UBKojqDqExNcZBlhE22qYqOk/view' },
-  { id:'1B7Wy13hNQVpQiRDGKZFxPbPTnqhYazJJ', title:'Diapositiva _MG_9835', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1B7Wy13hNQVpQiRDGKZFxPbPTnqhYazJJ/view' },
-  { id:'1wz6XfjMfu-mUQBfolO9hdPdJDEwnem02', title:'Diapositiva _MG_9835-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1wz6XfjMfu-mUQBfolO9hdPdJDEwnem02/view' },
-  { id:'1z5mNPl1vfW6d9cHszYT8zKvni5uu1ALt', title:'Diapositiva _MG_9835-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1z5mNPl1vfW6d9cHszYT8zKvni5uu1ALt/view' },
-  { id:'167PLTdgyWbxvPJmPZ0gQx7DAFccwMxPA', title:'Diapositiva _MG_9837', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/167PLTdgyWbxvPJmPZ0gQx7DAFccwMxPA/view' },
-  { id:'1TQWWmr5PHdnANrXVLCAHaP_e9iy9Jnpy', title:'Diapositiva _MG_9837-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1TQWWmr5PHdnANrXVLCAHaP_e9iy9Jnpy/view' },
-  { id:'1uG1nUIzH532VEc0Rrsi1aI3Boytyi9UN', title:'Diapositiva _MG_9838', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1uG1nUIzH532VEc0Rrsi1aI3Boytyi9UN/view' },
-  { id:'1-2NDhdbGgNwBxa-DdsUTc8RMPKbdH7y7', title:'Diapositiva _MG_9838-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1-2NDhdbGgNwBxa-DdsUTc8RMPKbdH7y7/view' },
-  { id:'1ztXOvcXhfS-YA0M2xe_9Sowiup6g7Nve', title:'Diapositiva _MG_9842', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ztXOvcXhfS-YA0M2xe_9Sowiup6g7Nve/view' },
-  { id:'1o1R_xCeEC8L0RxIaHNUVqUW-k41An07z', title:'Diapositiva _MG_9842-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1o1R_xCeEC8L0RxIaHNUVqUW-k41An07z/view' },
-  { id:'1ThMi7573BgztCm4WAlU-JU_KjNY9QcFA', title:'Diapositiva _MG_9842-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ThMi7573BgztCm4WAlU-JU_KjNY9QcFA/view' },
-  { id:'1IRA25vls8jFREDHvEADDFwcdDXdkTkCW', title:'Diapositiva _MG_9843', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1IRA25vls8jFREDHvEADDFwcdDXdkTkCW/view' },
-  { id:'1P0OqTWJDpFsKMRUNJPFVzPOijYAqbJZG', title:'Diapositiva _MG_9848', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1P0OqTWJDpFsKMRUNJPFVzPOijYAqbJZG/view' },
-  { id:'1VQ1Hucj4TAy_e_mchIEryNIJHl_CSG3q', title:'Diapositiva _MG_9848-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1VQ1Hucj4TAy_e_mchIEryNIJHl_CSG3q/view' },
-  { id:'1vhV0Hp--xz0yWj6JMC3q_Sg_kTJoRIiK', title:'Diapositiva _MG_9849', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1vhV0Hp--xz0yWj6JMC3q_Sg_kTJoRIiK/view' },
-  { id:'1GGsNLaNUdwXJgqfvqBEh97E-hr_gWHf-', title:'Diapositiva _MG_9849-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1GGsNLaNUdwXJgqfvqBEh97E-hr_gWHf-/view' },
-  { id:'1BiqkZ3wc86A2rjCcmZugEYr_G9qoK_Br', title:'Diapositiva _MG_9850', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1BiqkZ3wc86A2rjCcmZugEYr_G9qoK_Br/view' },
-  { id:'1_z5iIeNkHiLBQlSj6KePLBzqqcmbWNUp', title:'Diapositiva _MG_9850-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1_z5iIeNkHiLBQlSj6KePLBzqqcmbWNUp/view' },
-  { id:'1xlPNV-_QDkzGW7Pf69gbglbeNralpm6T', title:'Diapositiva _MG_9851', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1xlPNV-_QDkzGW7Pf69gbglbeNralpm6T/view' },
-  { id:'1nhf5V0JL1flXnGH4agYc2hkqAhLkLiGl', title:'Diapositiva _MG_9851-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1nhf5V0JL1flXnGH4agYc2hkqAhLkLiGl/view' },
-  { id:'1UvICfp5zLUBJYS1reYRT2uIpBRtB2aBa', title:'Diapositiva _MG_9852', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1UvICfp5zLUBJYS1reYRT2uIpBRtB2aBa/view' },
-  { id:'1jlLhMS6iHukP9GJ9U_uvDXQrnVSThb2J', title:'Diapositiva _MG_9852-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1jlLhMS6iHukP9GJ9U_uvDXQrnVSThb2J/view' },
-  { id:'1kkanS0yk0Z2_vKLqI4a3ppnfI3LtS9Xc', title:'Diapositiva _MG_9853', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1kkanS0yk0Z2_vKLqI4a3ppnfI3LtS9Xc/view' },
-  { id:'1I_zOsyWj-W0GLCh_WXjDkACYvPdDC_7j', title:'Diapositiva _MG_9853-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1I_zOsyWj-W0GLCh_WXjDkACYvPdDC_7j/view' },
-  { id:'1aJ30Qv7Gpm8BrK4Xn33YrSsePvvJUm2p', title:'Diapositiva _MG_9853-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1aJ30Qv7Gpm8BrK4Xn33YrSsePvvJUm2p/view' },
-  { id:'1lqnDCs-5KCipo3ZNyRwbaKvz-50CbUl9', title:'Diapositiva _MG_9854', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1lqnDCs-5KCipo3ZNyRwbaKvz-50CbUl9/view' },
-  { id:'17qkAaFgEGl755rxfA7BlRUrs1VU5-eVZ', title:'Diapositiva _MG_9854-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/17qkAaFgEGl755rxfA7BlRUrs1VU5-eVZ/view' },
-  { id:'1B6rbuYvM0OMxobHDkS-yss3qVcrzkBz_', title:'Diapositiva _MG_9855', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1B6rbuYvM0OMxobHDkS-yss3qVcrzkBz_/view' },
-  { id:'1JRx3V6tFSJ4AUc2fK-tI082j1Mu5WxSq', title:'Diapositiva _MG_9855-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1JRx3V6tFSJ4AUc2fK-tI082j1Mu5WxSq/view' },
-  { id:'1YU2I-5X0_IdwiU99x-uN8G7brbGGPfFw', title:'Diapositiva _MG_9856', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1YU2I-5X0_IdwiU99x-uN8G7brbGGPfFw/view' },
-  { id:'18nBfNMq-3oXZuSAVOMlnBlGvzVdEn-bu', title:'Diapositiva _MG_9856-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/18nBfNMq-3oXZuSAVOMlnBlGvzVdEn-bu/view' },
-  { id:'1GKqQmrGTUumDf4by4e7oyexjiugqAWLB', title:'Diapositiva _MG_9857', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1GKqQmrGTUumDf4by4e7oyexjiugqAWLB/view' },
-  { id:'1R_DHz86_hv2bpYmghMeS-WjmttJ21j71', title:'Diapositiva _MG_9857-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1R_DHz86_hv2bpYmghMeS-WjmttJ21j71/view' },
-  { id:'1lVFDn6mM2q9zV5yz3xYZOQYW2I6Fc8aN', title:'Diapositiva _MG_9858', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1lVFDn6mM2q9zV5yz3xYZOQYW2I6Fc8aN/view' },
-  { id:'1bJyswv8iA4ENlLLJqtum9GF_ZC0lHtL1', title:'Diapositiva _MG_9858-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1bJyswv8iA4ENlLLJqtum9GF_ZC0lHtL1/view' },
-  { id:'19a8ceARxHnfY2fksW8GYtDUUPYILZ6fn', title:'Diapositiva _MG_9859', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/19a8ceARxHnfY2fksW8GYtDUUPYILZ6fn/view' },
-  { id:'1Bxf-q53yGzyaUnECw9ZCdARWFNdmtNVU', title:'Diapositiva _MG_9859-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1Bxf-q53yGzyaUnECw9ZCdARWFNdmtNVU/view' },
-  { id:'1ZLsi1lArcycd2UPogOSsdzVoLfjICr9L', title:'Diapositiva _MG_9860', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ZLsi1lArcycd2UPogOSsdzVoLfjICr9L/view' },
-  { id:'1WaQ52cg_FbPqe6aRskxMY0TL5AFujlyi', title:'Diapositiva _MG_9860-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1WaQ52cg_FbPqe6aRskxMY0TL5AFujlyi/view' },
-  { id:'1ZeZp5MnxYSUUpMBzZ-VTj6fdCrRiMvyN', title:'Diapositiva _MG_9860-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ZeZp5MnxYSUUpMBzZ-VTj6fdCrRiMvyN/view' },
-  { id:'1wTDauA6Wkog7RlqtyqmcFWjvRxdEWR4_', title:'Foto Escuela — Remera Azul', type:'foto', date:'2023', url:'https://drive.google.com/file/d/1wTDauA6Wkog7RlqtyqmcFWjvRxdEWR4_/view' },
-  { id:'1fRMgLE8Ta-bsHMvVu8X6tpQLnH6y_Szq', title:'Foto Escuela — Remera Negro', type:'foto', date:'2023', url:'https://drive.google.com/file/d/1fRMgLE8Ta-bsHMvVu8X6tpQLnH6y_Szq/view' },
-];
+const DECADES = {
+  '70s': {
+    label: 'Años 70',
+    folder: '1EDAZ3FBB6Fmgk8oAFG_gsBGNCqnG3K5L',
+    files: [
+      '1uhbVYzVONiltvdBKFkzs0GEY6X0KdlQX','1MJz_XPVNoSV3xTN-W80JkRjwHoojcybJ','1FGXkZW61A6IFo8pCWY_BzZmXu0CDTdBY',
+      '1MsuqHKshrtarpMjfsmE53v8T2aWliZqJ','1IaJFu0KW9_hqz5PklbMhSEdNPG8RiU1o','1Oljl3-g5oN-wOUwo4udF57ICjrUI2pcD',
+      '1gfh_IDPQZhq5Deh7SDS2sNUtOfdG8Rs3','1sfpqElvcl62wTgqyXR4u89YfAvTnBPLb','1X_4u6Qnrkcg-knj_i4SE9DtXEIBv9luq',
+      '1cXnGrPIRM3ZiEEdv7eDf3duURTX8tsXD','1uyEqw0aukanHEVrufNUgvrJcpuQgyfDM','1JITLbm3RVTDFYKUYwLO639NfOHhzgPOL',
+      '1Uw2bN83j-v3rUy5k6JEENi_5IYgLY6VF','17Go6kinXBjn6dHefTmAGKHjxDx_9ES3E','1MPZXrxOkVL9PxZeQo6Y-vrqv5lzdfmPL',
+      '1BETbMTFXEM69BEjXMai13m0roDOB3XUR','1IIMh_9Nb5uP-3pjraFiAmH_KGMZBBFJJ','10QugzRR8KjUk82WhU7oGCmz3FgEacRPF',
+      '1OsOpH7zdsn82vxIL1reYKodAYUdC0k-x','1_I6f93Jnu5yr2m06uVjKpLw1H3DgEFJj','17m3M-r2gzfPZYIVz5Im01rIXrpuc-xFN',
+      '1D5sKkpM7VtbykXEhXqwkKQZY0yty5djs','175U-Z1NJ4ndGZxQhbQVu_0OJZZIR4A2b','1VcCIckUDk6xigSo4lPVfjDhPllq43K-v',
+      '1BBP93e_ApsIoKp3lMLXxdVwv4oyoh9S-','1xBKTcDOPkt9MBxY7mWQ2w7TX04KLN3QE','1ZPPszNAd5MEVW53B0rx_pG2VVvTM0khw',
+      '1rLwBABPQCJq2z2VdBW7HLSLl-xDHR3Sk','1QnO6IbFfgATtT0tR1FMem2MouA1p2rKw','1O-5VTQRpDbNyVVHllDe4u0OotRqGabZN'
+    ]
+  },
+  '90s': {
+    label: 'Años 90',
+    folder: '1unhVjy0aARR2e71l-sPa7UArlq2rCiIv',
+    files: [
+      '1do92k1EgGi8RIKoBWaNcPlehegdY8J6I','1rNKQF0m0fU1_2wwG0Tq-LWII-vL8S-qR','1ptR5JHzMB6KFeKfU1zV4CCJ5pgplqhkk',
+      '1SSUf9zgZc_hzqiikQE1IcCPsq36TZL7u','1Dhyg9hxqRor-SdDQs7iCS0RexaFXsK_K','1n79AG4Gdeh0TT_P-NNJedH6UYQVOQdFr',
+      '1LVPKax9FX4cl5wCqom5R94nhlVbHm7e2','1HrZH9ZiCLj_W95eX4tNwEUfDDPyDCSJy','10odx-b1XDnb8OA09OaXhllb6bDuroCYK',
+      '115J_lPiW1aXAXnrUZFg_WiKF4UsjRHrO','1bagcwiq1SvusJbtsxrO00wbGnUeKrMGD','1tHsocWt3H3PQAplnUPO1IOOzuezSr4zf',
+      '1xHjvpMOgL_xm-eWtsFyEf5ExBGDykSpz','12VX6iVnoJp206Yl_v_QW2D_zc9ptgCX5','1l6dVvSWEWgRefKRSJUpu5uQj9jUoVFrq',
+      '1EEIZmI3s1TFUiiq4EAtpCbpXnJeNv9wP','1qbumLB-aA66dZu33r7K5dDur0JC9R5zN','1mPZElKTOcffjU4aLLVcW7aW0OuMSBlKd',
+      '1Q-1EaEotSTVq5wQbVrXX61T9z637p0C4','1R0ANKQBlcBznKlWVlDnPMm0K8tLZJCni'
+    ]
+  },
+  'edificio': {
+    label: 'Edificio',
+    folder: '1785f0-ZnlREdFETtsWUfMV1MZwlr6H7b',
+    files: [
+      '1iu631zFzfaB_0byAc_NrAuGElPf3Y6gi','1iscaVB36KZWgAllpIWxkdBSNawJ35QHe','1L_hN0uriW5jbbwy5eK2EK6zyPVuXoe8w',
+      '15bOsRORj4zMCwGRs2E1JMhuTy0ClS-8j','1rVYFVkxjrVvzclVm3wMYW28CYxw4QTT2','1rs0UF48KsNEjLrZBzUJ3vRFyc7AOUtjw',
+      '1hSg3EV6NCUpxEeHTEl9uGeM0-CqlxLGu','1ZAJZitlaUFZPi9NdDS19v1bA2rJ89Hu_','1SKPoOn5N4--UZQtlWynn6hemwuMpcNdb',
+      '1KCB-Y00f87uSH4hLC18ouiLHL9Ouphm5','18VFdYGRdXWvSW5ftNAhgKuoqV8P4uHpY','1VSnw8FaYrXcsHocCr-CaSzXQ3pLREKwp',
+      '1qe95pSmujkEtcLBaCyGoGvzOx5XVQ7TC'
+    ]
+  }
+};
 
-const TYPE_LABELS = { diapositiva: 'Diapositiva', foto: 'Fotografía', video: 'Video', documento: 'Documento' };
-const TYPE_ICONS  = { diapositiva: '🎞', foto: '📷', video: '🎬', documento: '📄' };
+let activeDecade = 'all';
 
-let activeFilter = '';
+function makeItem(id, decade) {
+  const label = DECADES[decade].label;
+  const num = id.slice(-4);
+  return `<div class="gallery-item" data-decade="${decade}">
+    <div class="gallery-thumb">
+      <img src="https://drive.google.com/thumbnail?id=${id}&sz=w400" alt="Foto ${label}" loading="lazy" onerror="this.setAttribute('data-error','1')">
+      <span class="gallery-thumb-icon">📷</span>
+      <a class="gallery-overlay" href="https://drive.google.com/file/d/${id}/view" target="_blank">
+        <span class="gallery-overlay-label">Abrir en Drive</span>
+      </a>
+    </div>
+    <div class="gallery-info">
+      <div class="gallery-decade">${label}</div>
+      <div class="gallery-title">Fotografía ${num}</div>
+      <div class="gallery-date">${decade === '70s' ? 'c. 1971' : decade === '90s' ? 'c. 1996' : 'S/F'}</div>
+    </div>
+  </div>`;
+}
 
-function setFilter(type, btn) {
-  activeFilter = type;
-  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+function buildAllItems() {
+  return Object.entries(DECADES).flatMap(([decade, data]) =>
+    data.files.map(id => makeItem(id, decade))
+  ).join('');
+}
+
+function setDecade(decade, btn) {
+  activeDecade = decade;
+  document.querySelectorAll('.decade-tab').forEach(t => t.classList.remove('active'));
   btn.classList.add('active');
   filterGallery();
 }
 
 function filterGallery() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
+  const q = (document.getElementById('searchInput').value || '').toLowerCase();
   const grid = document.getElementById('galleryGrid');
-  const filtered = items.filter(i =>
-    (!activeFilter || i.type === activeFilter) &&
-    (!q || i.title.toLowerCase().includes(q) || i.type.includes(q) || i.date.includes(q))
-  );
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="no-results">No se encontraron resultados para esa búsqueda.</div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(item => {
-    const thumb = item.type === 'diapositiva' || item.type === 'foto'
-      ? `<img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" alt="${item.title}" loading="lazy" onerror="this.classList.add('error')">`
-      : '';
-    return `
-    <div class="gallery-item" data-id="${item.id}">
-      <div class="gallery-thumb">
-        ${thumb}
-        <span class="gallery-thumb-icon">${TYPE_ICONS[item.type] || '📦'}</span>
-        <a class="gallery-link" href="${item.url}" target="_blank">
-          <span class="gallery-link-label">Abrir en Drive</span>
-        </a>
-      </div>
-      <div class="gallery-info">
-        <div class="gallery-type">${TYPE_LABELS[item.type] || item.type}</div>
-        <div class="gallery-title">${item.title}</div>
-        <div class="gallery-date">${item.date}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function closeLightbox(e) {
-  if (!e || e.target === document.getElementById('lightbox')) {
-    document.getElementById('lightbox').classList.remove('open');
+  let items = [];
+  const decades = activeDecade === 'all' ? Object.keys(DECADES) : [activeDecade];
+  decades.forEach(decade => {
+    DECADES[decade].files.forEach(id => {
+      const label = DECADES[decade].label.toLowerCase();
+      const date = decade === '70s' ? '1971' : decade === '90s' ? '1996' : 'edificio';
+      if (!q || label.includes(q) || date.includes(q) || decade.includes(q)) {
+        items.push(makeItem(id, decade));
+      }
+    });
+  });
+  if (!items.length) {
+    grid.innerHTML = '<div class="no-results">No se encontraron resultados.</div>';
+  } else {
+    grid.innerHTML = items.join('');
   }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-// Render inicial
 filterGallery();
 </script>
 </body>
