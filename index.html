@@ -7,785 +7,826 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:      #0A1628;
+  --navy-mid:  #0D1F3C;
+  --navy-lt:   #142238;
+  --blue:      #378ADD;
+  --blue-mid:  #85B7EB;
+  --blue-lt:   #B5D4F4;
+  --blue-pale: #E6F1FB;
+  --white:     #FFFFFF;
+  --off-white: #F4F8FD;
+  --border:    rgba(55,138,221,0.15);
+  --border-mid:rgba(55,138,221,0.3);
+  --warm-gray: #8899AA;
+  --shadow:    0 4px 32px rgba(10,22,40,0.18);
+}
+html { scroll-behavior: smooth; }
+body { font-family:'IBM Plex Sans',sans-serif; background:var(--off-white); color:var(--navy); font-size:16px; line-height:1.7; }
 
-  :root {
-    --ink:       #1A1208;
-    --sepia:     #8B6914;
-    --sepia-mid: #C9A84C;
-    --sepia-lt:  #F5EDD6;
-    --paper:     #FAF7F0;
-    --paper-mid: #F0E8D0;
-    --accent:    #3D6B4F;
-    --accent-lt: #E8F0EB;
-    --warm-gray: #6B6355;
-    --border:    rgba(139,105,20,0.2);
-    --shadow:    0 2px 24px rgba(26,18,8,0.07);
-  }
+/* ── TOPBAR ── */
+.topbar { background:var(--navy); padding:10px 2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; position:sticky; top:0; z-index:200; border-bottom:1px solid rgba(55,138,221,0.2); }
+.topbar-brand { font-family:'Playfair Display',serif; font-size:15px; color:var(--blue-lt); text-decoration:none; cursor:pointer; }
+.topbar-sub { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.15em; color:rgba(181,212,244,.4); text-transform:uppercase; display:block; margin-top:1px; }
+.topbar-nav { display:flex; gap:1.5rem; align-items:center; }
+.topbar-nav a { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; color:rgba(181,212,244,.55); text-decoration:none; text-transform:uppercase; transition:color .15s; cursor:pointer; }
+.topbar-nav a:hover { color:var(--blue-lt); }
+.topbar-nav a.nav-cta { border:1px solid rgba(55,138,221,.4); padding:5px 14px; border-radius:2px; color:var(--blue-mid); }
+.topbar-nav a.nav-cta:hover { background:rgba(55,138,221,.1); color:var(--blue-lt); }
 
-  html { scroll-behavior: smooth; }
+/* ── HERO ── */
+.hero { background:var(--navy-mid); padding:4rem 2rem 3rem; text-align:center; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(55,138,221,.04) 39px,rgba(55,138,221,.04) 40px); }
+.hero::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at center top,rgba(55,138,221,.08) 0%,transparent 70%); }
+.hero-eyebrow { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; margin-bottom:1rem; position:relative; z-index:1; }
+.hero-eyebrow::before,.hero-eyebrow::after { content:'——'; margin:0 1rem; opacity:.35; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,5vw,3.4rem); color:var(--white); line-height:1.1; margin-bottom:.4rem; position:relative; z-index:1; }
+.hero-title em { font-style:italic; color:var(--blue-mid); }
+.hero-subtitle { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.12em; color:rgba(181,212,244,.35); text-transform:uppercase; margin-bottom:1.5rem; position:relative; z-index:1; }
+.hero-desc { font-size:14px; color:rgba(181,212,244,.6); max-width:520px; margin:0 auto 2rem; font-weight:300; line-height:1.8; position:relative; z-index:1; }
+.hero-actions { display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; position:relative; z-index:1; }
+.btn-primary { background:var(--blue); color:white; padding:11px 26px; border:none; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; cursor:pointer; transition:opacity .15s; display:inline-block; }
+.btn-primary:hover { opacity:.85; }
+.btn-secondary { border:1px solid rgba(55,138,221,.4); color:rgba(181,212,244,.7); padding:11px 26px; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; transition:all .15s; display:inline-block; cursor:pointer; }
+.btn-secondary:hover { border-color:var(--blue); color:var(--blue-lt); }
 
-  body {
-    font-family: 'IBM Plex Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    font-size: 16px;
-    line-height: 1.7;
-  }
+/* ── STATS ── */
+.stats-strip { background:var(--navy); border-top:1px solid rgba(55,138,221,.15); border-bottom:1px solid rgba(55,138,221,.15); padding:1.25rem 2rem; display:flex; justify-content:center; flex-wrap:wrap; gap:.5rem; }
+.stat-item { text-align:center; padding:0 2rem; border-right:1px solid rgba(55,138,221,.15); }
+.stat-item:last-child { border-right:none; }
+.stat-n { font-family:'Playfair Display',serif; font-size:1.8rem; color:var(--blue); display:block; line-height:1; margin-bottom:3px; }
+.stat-l { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; color:var(--warm-gray); text-transform:uppercase; }
 
-  /* ── TOPBAR ── */
-  .topbar {
-    background: var(--ink);
-    color: var(--sepia-lt);
-    padding: 10px 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .topbar-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    letter-spacing: 0.03em;
-    color: var(--sepia-lt);
-    text-decoration: none;
-  }
-  .topbar-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    color: rgba(245,237,214,0.45);
-    text-transform: uppercase;
-    display: block;
-    margin-top: 1px;
-  }
-  .topbar-nav { display: flex; gap: 1.5rem; align-items: center; }
-  .topbar-nav a {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    color: rgba(245,237,214,0.6);
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.15s;
-  }
-  .topbar-nav a:hover { color: var(--sepia-lt); }
-  .topbar-nav a.nav-cta {
-    border: 1px solid rgba(201,168,76,0.5);
-    padding: 5px 14px;
-    border-radius: 2px;
-    color: var(--sepia-mid);
-  }
-  .topbar-nav a.nav-cta:hover { background: rgba(201,168,76,0.1); color: var(--sepia-lt); }
+/* ── SECTIONS ── */
+.section { padding:3.5rem 2rem; max-width:1100px; margin:0 auto; }
+.section-header { margin-bottom:2rem; }
+.section-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; margin-bottom:6px; display:flex; align-items:center; gap:10px; }
+.section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(1.4rem,3vw,2rem); color:var(--navy); line-height:1.2; }
+.section-desc { font-size:13px; color:var(--warm-gray); margin-top:6px; max-width:560px; }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--ink);
-    padding: 5rem 2rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 39px,
-      rgba(201,168,76,0.06) 39px,
-      rgba(201,168,76,0.06) 40px
-    );
-  }
-  .hero-eyebrow {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--sepia-mid);
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    position: relative;
-  }
-  .hero-eyebrow::before, .hero-eyebrow::after {
-    content: '——';
-    margin: 0 1rem;
-    opacity: 0.4;
-  }
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 5vw, 3.8rem);
-    color: var(--sepia-lt);
-    line-height: 1.1;
-    margin-bottom: 0.5rem;
-    position: relative;
-  }
-  .hero-title em {
-    font-style: italic;
-    color: var(--sepia-mid);
-  }
-  .hero-subtitle {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    color: rgba(245,237,214,0.4);
-    text-transform: uppercase;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-  .hero-desc {
-    font-size: 15px;
-    color: rgba(245,237,214,0.65);
-    max-width: 540px;
-    margin: 0 auto 2.5rem;
-    font-weight: 300;
-    line-height: 1.8;
-    position: relative;
-  }
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    position: relative;
-  }
-  .btn-primary {
-    background: var(--sepia);
-    color: var(--sepia-lt);
-    padding: 12px 28px;
-    border: none;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    display: inline-block;
-  }
-  .btn-primary:hover { opacity: 0.85; }
-  .btn-secondary {
-    border: 1px solid rgba(201,168,76,0.4);
-    color: rgba(245,237,214,0.7);
-    padding: 12px 28px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.15s;
-    display: inline-block;
-  }
-  .btn-secondary:hover { border-color: var(--sepia-mid); color: var(--sepia-lt); }
+/* ── SEARCH BAR ── */
+.search-wrap { display:flex; gap:8px; margin-bottom:1.25rem; }
+.search-input { background:var(--navy); border:1px solid rgba(55,138,221,.2); padding:.85rem 1.25rem; font-family:'IBM Plex Sans',sans-serif; font-size:14px; color:var(--blue-lt); flex:1; outline:none; }
+.search-input::placeholder { color:rgba(133,183,235,.3); }
+.search-btn { background:var(--blue); color:white; border:none; padding:.85rem 1.5rem; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.06em; cursor:pointer; text-transform:uppercase; }
 
-  /* ── STATS STRIP ── */
-  .stats-strip {
-    background: var(--sepia-lt);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 1.5rem 2rem;
-    display: flex;
-    justify-content: center;
-    gap: 0;
-  }
-  .stat-item {
-    text-align: center;
-    padding: 0 2.5rem;
-    border-right: 1px solid var(--border);
-  }
-  .stat-item:last-child { border-right: none; }
-  .stat-n {
-    font-family: 'Playfair Display', serif;
-    font-size: 2rem;
-    color: var(--sepia);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .stat-l {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    color: var(--warm-gray);
-    text-transform: uppercase;
-  }
+/* ── DECADE TABS ── */
+.decade-tabs { display:flex; gap:0; margin-bottom:1.25rem; border-bottom:1px solid var(--border); overflow-x:auto; }
+.decade-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; padding:9px 18px; border:none; background:none; cursor:pointer; color:var(--warm-gray); text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; transition:color .12s; }
+.decade-tab:hover { color:var(--blue); }
+.decade-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
 
-  /* ── SECTION ── */
-  .section { padding: 4rem 2rem; max-width: 1100px; margin: 0 auto; }
-  .section-header { margin-bottom: 2.5rem; }
-  .section-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    color: var(--sepia);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    color: var(--ink);
-    line-height: 1.2;
-  }
-  .section-desc { font-size: 14px; color: var(--warm-gray); margin-top: 8px; max-width: 560px; }
+/* ── GALLERY ── */
+.gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:1px; background:rgba(55,138,221,.1); border:1px solid var(--border); }
+.gallery-item { background:var(--white); overflow:hidden; cursor:pointer; transition:transform .15s; position:relative; }
+.gallery-item:hover { z-index:2; transform:scale(1.02); box-shadow:var(--shadow); }
+.gallery-thumb { height:150px; background:var(--blue-pale); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+.gallery-thumb img { width:100%; height:100%; object-fit:cover; transition:opacity .3s; }
+.gallery-thumb img.loading { opacity:0; }
+.gallery-thumb img.loaded { opacity:1; }
+.gallery-thumb-icon { font-size:2rem; opacity:.2; position:absolute; }
+.gallery-overlay { position:absolute; inset:0; background:rgba(10,22,40,0); transition:background .15s; display:flex; align-items:center; justify-content:center; }
+.gallery-overlay:hover { background:rgba(10,22,40,.55); }
+.gallery-overlay-label { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; color:white; background:var(--blue); padding:5px 12px; opacity:0; transition:opacity .15s; text-transform:uppercase; }
+.gallery-overlay:hover .gallery-overlay-label { opacity:1; }
+.gallery-info { padding:10px 12px; }
+.gallery-decade { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); margin-bottom:3px; }
+.gallery-title { font-size:12px; font-weight:500; color:var(--navy); line-height:1.3; margin-bottom:2px; }
+.gallery-date { font-size:10px; color:var(--warm-gray); font-family:'IBM Plex Mono',monospace; }
+.gallery-status { display:inline-block; font-size:9px; font-family:'IBM Plex Mono',monospace; padding:1px 6px; border-radius:999px; background:rgba(55,138,221,.12); color:var(--blue); margin-top:3px; letter-spacing:.04em; }
+.gallery-status.catalogada { background:rgba(61,107,79,.15); color:#3D6B4F; }
 
-  /* ── SEARCH ── */
-  .search-bar-wrap {
-    background: var(--sepia-lt);
-    border: 1px solid var(--border);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 2rem;
-  }
-  .search-icon { color: var(--sepia-mid); font-size: 16px; flex-shrink: 0; }
-  #searchInput {
-    border: none;
-    background: transparent;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 15px;
-    color: var(--ink);
-    flex: 1;
-    outline: none;
-  }
-  #searchInput::placeholder { color: rgba(139,105,20,0.4); }
-  .filter-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-tag {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    padding: 5px 14px;
-    border: 1px solid var(--border);
-    background: white;
-    cursor: pointer;
-    color: var(--warm-gray);
-    text-transform: uppercase;
-    transition: all 0.12s;
-  }
-  .filter-tag:hover, .filter-tag.active {
-    background: var(--sepia);
-    color: var(--sepia-lt);
-    border-color: var(--sepia);
-  }
+/* ── LOADING STATE ── */
+.loading-state { text-align:center; padding:3rem; color:var(--warm-gray); font-size:13px; font-family:'IBM Plex Mono',monospace; letter-spacing:.05em; grid-column:1/-1; background:white; }
+.loading-dot { display:inline-block; animation:pulse 1.2s infinite; }
+.loading-dot:nth-child(2) { animation-delay:.2s; }
+.loading-dot:nth-child(3) { animation-delay:.4s; }
+@keyframes pulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
 
-  /* ── GALLERY GRID ── */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border: 1px solid var(--border);
-  }
-  .gallery-item {
-    background: var(--paper);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.15s;
-    position: relative;
-  }
-  .gallery-item:hover { z-index: 2; transform: scale(1.02); box-shadow: var(--shadow); }
-  .gallery-thumb {
-    height: 160px;
-    background: var(--paper-mid);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-  }
-  .gallery-thumb-icon { font-size: 2.5rem; opacity: 0.3; display: none; }
-  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .gallery-thumb img.error { display: none; }
-  .gallery-thumb img.error + .gallery-thumb-icon { display: block; }
-  .gallery-info { padding: 12px 14px; }
-  .gallery-type {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--sepia);
-    margin-bottom: 4px;
-  }
-  .gallery-title { font-size: 13px; font-weight: 500; color: var(--ink); line-height: 1.3; margin-bottom: 3px; }
-  .gallery-date { font-size: 11px; color: var(--warm-gray); font-family: 'IBM Plex Mono', monospace; }
-  .gallery-link {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(26,18,8,0);
-    transition: background 0.15s;
-    text-decoration: none;
-  }
-  .gallery-link:hover { background: rgba(26,18,8,0.45); }
-  .gallery-link-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    color: white;
-    background: var(--sepia);
-    padding: 6px 14px;
-    opacity: 0;
-    transition: opacity 0.15s;
-    text-transform: uppercase;
-  }
-  .gallery-link:hover .gallery-link-label { opacity: 1; }
+/* ── FICHA MODAL ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.92); z-index:500; overflow-y:auto; padding:2rem 1rem; }
+.modal-overlay.open { display:flex; align-items:flex-start; justify-content:center; }
+.modal { background:var(--white); width:min(820px,100%); position:relative; }
+.modal-close { position:absolute; top:1rem; right:1rem; background:var(--navy); color:rgba(181,212,244,.6); border:none; width:32px; height:32px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:color .12s; }
+.modal-close:hover { color:var(--blue-lt); }
 
-  /* ── CARPETAS ── */
-  .folders-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .folder-card {
-    border: 1px solid var(--border);
-    background: white;
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    transition: all 0.12s;
-  }
-  .folder-card:hover { border-color: var(--sepia); background: var(--sepia-lt); }
-  .folder-card-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .folder-card-info {}
-  .folder-card-name { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 2px; }
-  .folder-card-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--warm-gray); letter-spacing: 0.05em; }
-  .folder-card-arrow { margin-left: auto; color: var(--sepia-mid); font-size: 14px; }
+/* Ficha header */
+.ficha-header { background:var(--navy-mid); padding:1.5rem 2rem; border-bottom:1px solid rgba(55,138,221,.2); }
+.ficha-id { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; margin-bottom:6px; }
+.ficha-titulo { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--white); line-height:1.2; margin-bottom:4px; }
+.ficha-subtitulo { font-size:12px; color:rgba(181,212,244,.5); font-family:'IBM Plex Mono',monospace; }
 
-  /* ── ACERCA DEL ARCHIVO ── */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
-  }
-  @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
-  .about-text p { font-size: 15px; color: var(--warm-gray); line-height: 1.8; margin-bottom: 1rem; }
-  .about-text p:last-child { margin-bottom: 0; }
-  .about-text strong { color: var(--ink); font-weight: 500; }
-  .timeline { border-left: 2px solid var(--border); padding-left: 1.5rem; }
-  .timeline-item { margin-bottom: 1.5rem; position: relative; }
-  .timeline-item::before {
-    content: '';
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--sepia-mid);
-    position: absolute;
-    left: -1.9rem;
-    top: 6px;
-  }
-  .timeline-year { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--sepia); margin-bottom: 3px; text-transform: uppercase; }
-  .timeline-text { font-size: 13px; color: var(--warm-gray); line-height: 1.5; }
+/* Ficha imagen */
+.ficha-img-wrap { background:var(--navy); text-align:center; padding:1.5rem; border-bottom:1px solid rgba(55,138,221,.1); }
+.ficha-img-wrap img { max-height:380px; max-width:100%; object-fit:contain; }
+.ficha-img-wrap .ficha-img-icon { font-size:4rem; opacity:.2; }
+.ficha-img-actions { display:flex; gap:8px; justify-content:center; margin-top:1rem; }
+.ficha-btn { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; padding:6px 16px; text-decoration:none; text-transform:uppercase; transition:all .12s; cursor:pointer; border:none; }
+.ficha-btn-primary { background:var(--blue); color:white; }
+.ficha-btn-primary:hover { opacity:.85; }
+.ficha-btn-secondary { border:1px solid rgba(55,138,221,.3); color:var(--blue-mid); background:none; }
+.ficha-btn-secondary:hover { background:rgba(55,138,221,.1); }
 
-  /* ── CONTACTO / COLABORÁ ── */
-  .contact-section {
-    background: var(--ink);
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-  .contact-section .section-label { justify-content: center; color: var(--sepia-mid); }
-  .contact-section .section-label::after { display: none; }
-  .contact-section .section-title { color: var(--sepia-lt); margin-bottom: 1rem; }
-  .contact-section p { font-size: 14px; color: rgba(245,237,214,0.55); max-width: 520px; margin: 0 auto 2rem; line-height: 1.8; }
-  .contact-ways {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 700px;
-    margin: 0 auto 2.5rem;
-  }
-  .contact-way {
-    border: 1px solid rgba(201,168,76,0.25);
-    padding: 1.25rem 1.5rem;
-    flex: 1;
-    min-width: 180px;
-    text-align: left;
-  }
-  .contact-way-icon { font-size: 1.2rem; margin-bottom: 8px; display: block; }
-  .contact-way-title { font-size: 13px; font-weight: 500; color: var(--sepia-lt); margin-bottom: 4px; }
-  .contact-way-desc { font-size: 11px; color: rgba(245,237,214,0.4); line-height: 1.5; }
-  .contact-email {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: var(--sepia-mid);
-    letter-spacing: 0.05em;
-  }
+/* Ficha body */
+.ficha-body { padding:1.5rem 2rem; }
+.ficha-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
+.ficha-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; padding:8px 16px; border:none; background:none; cursor:pointer; color:var(--warm-gray); text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .12s; }
+.ficha-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+.ficha-panel { display:none; }
+.ficha-panel.active { display:block; }
 
-  /* ── FOOTER ── */
-  footer {
-    background: #111008;
-    padding: 2rem;
-    text-align: center;
-    border-top: 1px solid rgba(201,168,76,0.1);
-  }
-  footer p { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(245,237,214,0.25); text-transform: uppercase; line-height: 2; }
-  footer a { color: rgba(201,168,76,0.5); text-decoration: none; }
+/* Ficha campos */
+.ficha-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:600px) { .ficha-grid { grid-template-columns:1fr; } }
+.ficha-campo { }
+.ficha-campo.full { grid-column:1/-1; }
+.ficha-campo-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; color:var(--blue); text-transform:uppercase; margin-bottom:3px; }
+.ficha-campo-valor { font-size:13px; color:var(--navy); line-height:1.5; min-height:20px; }
+.ficha-campo-valor.empty { color:var(--warm-gray); font-style:italic; font-size:12px; }
+.ficha-campo-link { color:var(--blue); text-decoration:none; font-size:12px; font-family:'IBM Plex Mono',monospace; word-break:break-all; }
+.ficha-campo-link:hover { text-decoration:underline; }
+.ficha-divider { border:none; border-top:1px solid var(--border); margin:1.25rem 0; }
 
-  /* ── LIGHTBOX ── */
-  .lightbox {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,8,4,0.95);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox-inner { max-width: 800px; width: 100%; text-align: center; position: relative; }
-  .lightbox-close {
-    position: absolute;
-    top: -2rem;
-    right: 0;
-    background: none;
-    border: none;
-    color: rgba(245,237,214,0.5);
-    font-size: 20px;
-    cursor: pointer;
-    font-family: 'IBM Plex Mono', monospace;
-    letter-spacing: 0.05em;
-    font-size: 12px;
-    text-transform: uppercase;
-  }
-  .lightbox-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--sepia-lt); margin-bottom: 6px; }
-  .lightbox-meta { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: rgba(245,237,214,0.35); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-  .lightbox-drive-btn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    border: 1px solid rgba(201,168,76,0.4);
-    color: var(--sepia-mid);
-    padding: 10px 24px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.12s;
-  }
-  .lightbox-drive-btn:hover { background: rgba(201,168,76,0.1); }
+/* Admin panel */
+.admin-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,.1); border:1px solid rgba(201,168,76,.3); color:#C9A84C; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; padding:3px 10px; text-transform:uppercase; margin-bottom:1rem; }
+.admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+@media(max-width:600px) { .admin-grid { grid-template-columns:1fr; } }
+.admin-campo-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; color:#C9A84C; text-transform:uppercase; margin-bottom:2px; }
+.admin-campo-valor { font-size:12px; color:#445566; line-height:1.4; }
+.admin-campo-valor.empty { color:var(--warm-gray); font-style:italic; }
 
-  /* ── NO-RESULTS ── */
-  .no-results { text-align: center; padding: 3rem; color: var(--warm-gray); font-size: 14px; grid-column: 1/-1; }
+/* Navegación entre fichas */
+.ficha-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:var(--navy); border-top:1px solid rgba(55,138,221,.15); }
+.ficha-nav-btn { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; color:rgba(181,212,244,.5); background:none; border:none; cursor:pointer; text-transform:uppercase; transition:color .12s; padding:4px 0; }
+.ficha-nav-btn:hover:not(:disabled) { color:var(--blue-lt); }
+.ficha-nav-btn:disabled { opacity:.2; cursor:default; }
+.ficha-nav-pos { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em; }
 
-  /* ── RESPONSIVE ── */
-  @media (max-width: 600px) {
-    .topbar-nav { display: none; }
-    .stats-strip { flex-wrap: wrap; gap: 1rem; }
-    .stat-item { border-right: none; padding: 0 1rem; }
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+/* ── BUSCADOR MODAL ── */
+.search-modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.95); z-index:600; padding:2rem 1rem; overflow-y:auto; }
+.search-modal-overlay.open { display:flex; flex-direction:column; align-items:center; }
+.search-modal { width:min(700px,100%); }
+.search-modal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.5rem; }
+.search-modal-title { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--white); }
+.search-modal-close { background:none; border:1px solid rgba(55,138,221,.2); color:rgba(181,212,244,.5); width:32px; height:32px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.search-modal-close:hover { color:var(--blue-lt); }
+.search-modal-input { width:100%; background:rgba(255,255,255,.05); border:1px solid rgba(55,138,221,.3); padding:1rem 1.25rem; font-family:'IBM Plex Sans',sans-serif; font-size:16px; color:var(--white); outline:none; margin-bottom:1rem; }
+.search-modal-input::placeholder { color:rgba(181,212,244,.3); }
+.search-results { display:flex; flex-direction:column; gap:1px; }
+.search-result-item { background:rgba(20,34,56,.8); padding:1rem 1.25rem; cursor:pointer; display:flex; align-items:center; gap:1rem; border-left:2px solid transparent; transition:all .12s; }
+.search-result-item:hover { background:rgba(55,138,221,.1); border-left-color:var(--blue); }
+.search-result-thumb { width:48px; height:48px; object-fit:cover; flex-shrink:0; background:var(--navy); }
+.search-result-icon { width:48px; height:48px; background:var(--navy-lt); display:flex; align-items:center; justify-content:center; font-size:1.2rem; flex-shrink:0; }
+.search-result-info {}
+.search-result-id { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; color:var(--blue); text-transform:uppercase; }
+.search-result-title { font-size:13px; color:var(--white); font-weight:500; }
+.search-result-meta { font-size:11px; color:var(--warm-gray); }
+.search-no-results { text-align:center; padding:2rem; color:var(--warm-gray); font-size:13px; font-family:'IBM Plex Mono',monospace; }
+
+/* ── VIDEOS ── */
+.videos-section { background:var(--navy); padding:4rem 2rem; }
+.videos-inner { max-width:1100px; margin:0 auto; }
+.videos-section .section-label { color:var(--blue-mid); }
+.videos-section .section-label::after { background:rgba(55,138,221,.2); }
+.videos-section .section-title { color:var(--white); }
+.videos-section .section-desc { color:var(--warm-gray); }
+.videos-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1px; background:rgba(55,138,221,.15); border:1px solid rgba(55,138,221,.2); margin-top:2rem; }
+.video-card { background:var(--navy-lt); padding:1.25rem; cursor:pointer; transition:background .12s; }
+.video-card:hover { background:#1A2F4A; }
+.video-icon { font-size:1.4rem; margin-bottom:8px; display:block; }
+.video-title { font-size:13px; font-weight:500; color:var(--blue-lt); margin-bottom:3px; line-height:1.3; }
+.video-meta { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.04em; margin-bottom:10px; }
+.video-btn { display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; color:var(--blue); border:1px solid rgba(55,138,221,.3); padding:5px 12px; text-decoration:none; text-transform:uppercase; transition:all .12s; }
+.video-btn:hover { background:rgba(55,138,221,.1); border-color:var(--blue); }
+
+/* ── CARPETAS ── */
+.folders-strip { background:var(--blue-pale); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.folders-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); margin-top:1.5rem; }
+.folder-card { background:white; padding:1.1rem 1.4rem; display:flex; align-items:center; gap:.875rem; text-decoration:none; transition:all .12s; }
+.folder-card:hover { background:var(--blue-pale); }
+.folder-card-icon { font-size:1.4rem; flex-shrink:0; }
+.folder-card-name { font-size:13px; font-weight:500; color:var(--navy); margin-bottom:2px; }
+.folder-card-meta { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); }
+.folder-card-arrow { margin-left:auto; color:var(--blue); font-size:14px; }
+
+/* ── HISTORIA ── */
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start; }
+@media(max-width:700px) { .about-grid { grid-template-columns:1fr; } }
+.about-text p { font-size:14px; color:#445566; line-height:1.8; margin-bottom:1rem; }
+.about-text strong { color:var(--navy); font-weight:500; }
+.timeline { border-left:2px solid var(--border-mid); padding-left:1.5rem; }
+.timeline-item { margin-bottom:1.5rem; position:relative; }
+.timeline-item::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--blue); position:absolute; left:-1.9rem; top:6px; }
+.timeline-year { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.1em; color:var(--blue); margin-bottom:3px; text-transform:uppercase; }
+.timeline-text { font-size:13px; color:#445566; line-height:1.5; }
+
+/* ── CONTACTO ── */
+.contact-section { background:var(--navy-mid); padding:4rem 2rem; text-align:center; border-top:1px solid rgba(55,138,221,.15); }
+.contact-section .section-label { justify-content:center; color:var(--blue-mid); }
+.contact-section .section-label::after { display:none; }
+.contact-section .section-title { color:white; margin-bottom:1rem; }
+.contact-section p { font-size:14px; color:rgba(181,212,244,.5); max-width:520px; margin:0 auto 2rem; line-height:1.8; }
+.contact-ways { display:flex; gap:1px; justify-content:center; flex-wrap:wrap; max-width:700px; margin:0 auto 2rem; background:rgba(55,138,221,.1); }
+.contact-way { padding:1.25rem 1.5rem; flex:1; min-width:180px; text-align:left; background:var(--navy-lt); }
+.contact-way-icon { font-size:1.1rem; margin-bottom:8px; display:block; }
+.contact-way-title { font-size:13px; font-weight:500; color:var(--blue-lt); margin-bottom:4px; }
+.contact-way-desc { font-size:11px; color:var(--warm-gray); line-height:1.5; }
+.contact-email { font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--blue); letter-spacing:.05em; }
+
+/* ── FOOTER ── */
+footer { background:var(--navy); padding:2rem; text-align:center; border-top:1px solid rgba(55,138,221,.1); }
+footer p { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.08em; color:rgba(181,212,244,.2); text-transform:uppercase; line-height:2; }
+footer a { color:rgba(55,138,221,.5); text-decoration:none; }
+
+@media(max-width:600px) { .topbar-nav{display:none;} .stats-strip{flex-wrap:wrap;} .stat-item{border-right:none;} .gallery-grid{grid-template-columns:repeat(2,1fr);} }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <header class="topbar">
-  <a href="#" class="topbar-brand">
+  <span class="topbar-brand" onclick="showMain()">
     Escuela Técnia N°23 — Casal Calviño
     <span class="topbar-sub">Archivo Histórico · Ciudad de Buenos Aires</span>
-  </a>
+  </span>
   <nav class="topbar-nav">
-    <a href="#galeria">Galería</a>
-    <a href="#carpetas">Carpetas</a>
-    <a href="#acerca">Historia</a>
-    <a href="#colabora" class="nav-cta">Colaborá</a>
+    <a onclick="showMain(); setTimeout(()=>scrollTo('fotos'),100)">Fotografías</a>
+    <a onclick="showMain(); setTimeout(()=>scrollTo('videos'),100)">Videos</a>
+    <a onclick="showMain(); setTimeout(()=>scrollTo('historia'),100)">Historia</a>
+    <a onclick="openSearchModal()" class="nav-cta">🔍 Buscador</a>
+    <a onclick="scrollTo('colabora')" class="nav-cta">Colaborá</a>
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <p class="hero-eyebrow">Proyecto de memoria institucional</p>
-  <h1 class="hero-title">Archivo Histórico<br><em>Casal Calviño</em></h1>
-  <p class="hero-subtitle">Escuela Técnia N°23 · Ciudad de Buenos Aires · En construcción</p>
-  <p class="hero-desc">Una colección de fotografías, documentos y testimonios que preservan la historia de nuestra escuela. Un proyecto colectivo abierto a la comunidad.</p>
-  <div class="hero-actions">
-    <a href="#galeria" class="btn-primary">Explorar el archivo</a>
-    <a href="#colabora" class="btn-secondary">Donar materiales</a>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-strip">
-  <div class="stat-item"><span class="stat-n">40+</span><span class="stat-l">Fotografías</span></div>
-  <div class="stat-item"><span class="stat-n">3</span><span class="stat-l">Colecciones</span></div>
-  <div class="stat-item"><span class="stat-n">2024</span><span class="stat-l">Inicio del proyecto</span></div>
-  <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">En crecimiento</span></div>
-</div>
-
-<!-- GALERÍA -->
-<section class="section" id="galeria">
-  <div class="section-header">
-    <div class="section-label">Colección</div>
-    <h2 class="section-title">Galería del archivo</h2>
-    <p class="section-desc">Fotografías y materiales históricos recolectados. Hacé clic en cualquier imagen para ver más detalles y acceder al archivo original.</p>
-  </div>
-
-  <div class="search-bar-wrap">
-    <span class="search-icon">⊙</span>
-    <input type="text" id="searchInput" placeholder="Buscar por título, fecha, categoría..." oninput="filterGallery()">
-  </div>
-  <div class="filter-tags" style="margin-bottom: 1.5rem;">
-    <button class="filter-tag active" onclick="setFilter('', this)">Todos</button>
-    <button class="filter-tag" onclick="setFilter('diapositiva', this)">Diapositivas</button>
-    <button class="filter-tag" onclick="setFilter('foto', this)">Fotografías</button>
-    <button class="filter-tag" onclick="setFilter('video', this)">Videos</button>
-    <button class="filter-tag" onclick="setFilter('documento', this)">Documentos</button>
-  </div>
-
-  <div class="gallery-grid" id="galleryGrid"></div>
-</section>
-
-<!-- CARPETAS DRIVE -->
-<section style="background: var(--sepia-lt); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section" id="carpetas" style="padding-top: 3rem; padding-bottom: 3rem;">
-    <div class="section-header" style="margin-bottom: 1.5rem;">
-      <div class="section-label">Google Drive</div>
-      <h2 class="section-title">Carpetas del archivo</h2>
-      <p class="section-desc">Acceso directo a las colecciones completas en Google Drive.</p>
+<!-- PÁGINA PRINCIPAL -->
+<div id="main-page">
+  <section class="hero">
+    <p class="hero-eyebrow">Proyecto de memoria institucional</p>
+    <h1 class="hero-title">Archivo Histórico<br><em>Casal Calviño</em></h1>
+    <p class="hero-subtitle">Escuela Técnia N°23 · Ciudad de Buenos Aires · En construcción</p>
+    <p class="hero-desc">Una colección de fotografías, documentos y testimonios que preservan la historia de nuestra escuela. Un proyecto colectivo abierto a la comunidad.</p>
+    <div class="hero-actions">
+      <span class="btn-primary" onclick="scrollTo('fotos')">Explorar el archivo</span>
+      <span class="btn-secondary" onclick="openSearchModal()">🔍 Buscar en el archivo</span>
     </div>
-    <div class="folders-grid">
-      <a class="folder-card" href="https://drive.google.com/drive/folders/1GNGqtwP-3NTEbs9Ov9eU1Fk6hwmKDyjH" target="_blank">
-        <span class="folder-card-icon">📷</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">FOTOS</div>
-          <div class="folder-card-meta">Fotografías · Diapositivas digitalizadas</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/14sE3xPR6OaDkYUsjMl_XIHZZHJCeU0LM" target="_blank">
-        <span class="folder-card-icon">🎞</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">FOTOS DIAPOSITIVAS — Primera versión</div>
-          <div class="folder-card-meta">40+ imágenes · Digitalización 2024</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/1c_zF-eMP6YwmaS3OonUr0RXC7quYowwu" target="_blank">
-        <span class="folder-card-icon">🎬</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">VIDEOS</div>
-          <div class="folder-card-meta">Videos institucionales · Actos escolares</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/1JtADhwYRe1YNu_2a2sCKu6BXUPj_28qe" target="_blank">
-        <span class="folder-card-icon">📄</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">OTROS DOCUMENTOS</div>
-          <div class="folder-card-meta">Documentos históricos · En formación</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-      <a class="folder-card" href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank" style="border: 1px solid var(--sepia-mid);">
-        <span class="folder-card-icon">🗄</span>
-        <div class="folder-card-info">
-          <div class="folder-card-name">Ver archivo completo</div>
-          <div class="folder-card-meta">Carpeta raíz — ARCHIVO CASAL CALVIÑO</div>
-        </div>
-        <span class="folder-card-arrow">→</span>
-      </a>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- HISTORIA -->
-<section class="section" id="acerca">
-  <div class="section-header">
-    <div class="section-label">Historia</div>
-    <h2 class="section-title">Sobre la escuela y este archivo</h2>
+  <div class="stats-strip">
+    <div class="stat-item"><span class="stat-n" id="stat-fotos">—</span><span class="stat-l">Fotografías</span></div>
+    <div class="stat-item"><span class="stat-n">3</span><span class="stat-l">Décadas</span></div>
+    <div class="stat-item"><span class="stat-n">4</span><span class="stat-l">Videos</span></div>
+    <div class="stat-item"><span class="stat-n" id="stat-catalogadas">—</span><span class="stat-l">Catalogadas</span></div>
   </div>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>La <strong>Escuela Técnia N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con una historia de décadas de formación técnica y compromiso con su comunidad.</p>
-      <p>Este archivo nació de la necesidad de <strong>preservar y dar acceso</strong> a los materiales históricos de la escuela: fotografías, documentos, testimonios de ex alumnos y ex docentes que de otro modo podrían perderse.</p>
-      <p>El proyecto es <strong>abierto y colaborativo</strong>. Si tenés materiales —fotos antiguas, diplomas, actas, recuerdos— podés contribuir al archivo escribiéndonos. Cada aporte enriquece esta memoria colectiva.</p>
+
+  <!-- FOTOGRAFÍAS -->
+  <section class="section" id="fotos">
+    <div class="section-header">
+      <div class="section-label">Colección fotográfica</div>
+      <h2 class="section-title">Galería de imágenes</h2>
+      <p class="section-desc">Fotografías organizadas por época. Hacé clic en cualquier imagen para ver su ficha técnica completa.</p>
     </div>
-    <div>
-      <div class="timeline">
-        <div class="timeline-item">
-          <div class="timeline-year">Fundación</div>
-          <div class="timeline-text">Creación de la Escuela Técnia N°23 en la Ciudad de Buenos Aires.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">Décadas de historia</div>
-          <div class="timeline-text">Generaciones de alumnos y docentes que construyeron la identidad de la institución.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2024</div>
-          <div class="timeline-text">Primera digitalización de diapositivas históricas. Inicio del proyecto de archivo.</div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-year">2025 — hoy</div>
-          <div class="timeline-text">Recolección activa de materiales. Contacto con ex alumnos y ex docentes. Construcción del sitio público.</div>
+    <div class="decade-tabs">
+      <button class="decade-tab active" onclick="setDecade('all',this)">Todas</button>
+      <button class="decade-tab" onclick="setDecade('70s',this)">Años 70</button>
+      <button class="decade-tab" onclick="setDecade('90s',this)">Años 90</button>
+      <button class="decade-tab" onclick="setDecade('edificio',this)">Edificio</button>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="loading-state">
+        Cargando colección<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEOS -->
+  <section class="videos-section" id="videos">
+    <div class="videos-inner">
+      <div class="section-header">
+        <div class="section-label">Archivo audiovisual</div>
+        <h2 class="section-title">Videos</h2>
+        <p class="section-desc">Registros audiovisuales de la historia y vida institucional de la escuela.</p>
+      </div>
+      <div class="videos-grid" id="videosGrid">
+        <div class="loading-state" style="background:var(--navy-lt); color:var(--warm-gray);">
+          Cargando videos<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- CARPETAS DRIVE -->
+  <section class="folders-strip" id="carpetas">
+    <div class="section" style="padding-top:3rem;padding-bottom:3rem;">
+      <div class="section-header" style="margin-bottom:1.5rem;">
+        <div class="section-label">Google Drive</div>
+        <h2 class="section-title">Carpetas del archivo</h2>
+      </div>
+      <div class="folders-grid">
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1GNGqtwP-3NTEbs9Ov9eU1Fk6hwmKDyjH" target="_blank">
+          <span class="folder-card-icon">📷</span>
+          <div><div class="folder-card-name">01 — Fotografías</div><div class="folder-card-meta">70s · 90s · Edificio</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1EDAZ3FBB6Fmgk8oAFG_gsBGNCqnG3K5L" target="_blank">
+          <span class="folder-card-icon">🕰</span>
+          <div><div class="folder-card-name">Años 70</div><div class="folder-card-meta">c.1971 · 31 fotografías</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1unhVjy0aARR2e71l-sPa7UArlq2rCiIv" target="_blank">
+          <span class="folder-card-icon">🕰</span>
+          <div><div class="folder-card-name">Años 90</div><div class="folder-card-meta">c.1996 · 20 fotografías</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1785f0-ZnlREdFETtsWUfMV1MZwlr6H7b" target="_blank">
+          <span class="folder-card-icon">🏛</span>
+          <div><div class="folder-card-name">Edificio</div><div class="folder-card-meta">13 fotografías</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1c_zF-eMP6YwmaS3OonUr0RXC7quYowwu" target="_blank">
+          <span class="folder-card-icon">🎬</span>
+          <div><div class="folder-card-name">02 — Videos</div><div class="folder-card-meta">4 videos institucionales</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+        <a class="folder-card" href="https://drive.google.com/drive/folders/1JtADhwYRe1YNu_2a2sCKu6BXUPj_28qe" target="_blank">
+          <span class="folder-card-icon">📄</span>
+          <div><div class="folder-card-name">03 — Documentos</div><div class="folder-card-meta">En formación</div></div>
+          <span class="folder-card-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HISTORIA -->
+  <section class="section" id="historia">
+    <div class="section-header">
+      <div class="section-label">Historia</div>
+      <h2 class="section-title">Sobre la escuela y este archivo</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>La <strong>Escuela Técnia N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con décadas de historia en la formación técnica y el compromiso con su comunidad.</p>
+        <p>Este archivo nació de la necesidad de <strong>preservar y dar acceso</strong> a los materiales históricos de la escuela: fotografías, documentos y testimonios que de otro modo podrían perderse.</p>
+        <p>El proyecto es <strong>abierto y colaborativo</strong>. Si tenés materiales podés contribuir escribiéndonos. Cada aporte enriquece esta memoria colectiva.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-year">Fundación</div><div class="timeline-text">Creación de la Escuela Técnia N°23 en la Ciudad de Buenos Aires.</div></div>
+        <div class="timeline-item"><div class="timeline-year">Años 70</div><div class="timeline-text">Primeras fotografías documentadas. Talleres, actos y actividades institucionales.</div></div>
+        <div class="timeline-item"><div class="timeline-year">Años 90</div><div class="timeline-text">Nueva etapa institucional. Ampliación de la oferta educativa.</div></div>
+        <div class="timeline-item"><div class="timeline-year">2024 — hoy</div><div class="timeline-text">Inicio del proyecto de archivo histórico. Digitalización y recopilación activa de materiales.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLABORÁ -->
+  <section class="contact-section" id="colabora">
+    <div class="section-label">Sumate al proyecto</div>
+    <h2 class="section-title">¿Tenés materiales de la escuela?</h2>
+    <p>Fotos, videos, diplomas, revistas, actas o cualquier material relacionado con la historia de la ET23. Todo suma.</p>
+    <div class="contact-ways">
+      <div class="contact-way"><span class="contact-way-icon">📷</span><div class="contact-way-title">Fotos y videos</div><div class="contact-way-desc">De actos, talleres, egresados, vida escolar de cualquier época.</div></div>
+      <div class="contact-way"><span class="contact-way-icon">📄</span><div class="contact-way-title">Documentos</div><div class="contact-way-desc">Boletines, diplomas, revistas, programas de actos, cartas.</div></div>
+      <div class="contact-way"><span class="contact-way-icon">🎤</span><div class="contact-way-title">Tu testimonio</div><div class="contact-way-desc">Grabamos tu relato como ex alumno/a o ex docente.</div></div>
+    </div>
+    <p class="contact-email">hernan.ricci@bue.edu.ar</p>
+  </section>
+
+  <footer>
+    <p>Archivo Histórico — Escuela Técnia N°23 Casal Calviño · Ciudad de Buenos Aires</p>
+    <p>Proyecto de recuperación de memoria institucional · En construcción permanente</p>
+    <p style="margin-top:8px;"><a href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank">Ver archivo completo en Google Drive</a></p>
+  </footer>
+</div>
+
+<!-- FICHA MODAL -->
+<div class="modal-overlay" id="fichaModal">
+  <div class="modal" id="fichaContent">
+    <button class="modal-close" onclick="closeFicha()">✕</button>
+    <div class="ficha-header">
+      <div class="ficha-id" id="ficha-id"></div>
+      <div class="ficha-titulo" id="ficha-titulo"></div>
+      <div class="ficha-subtitulo" id="ficha-subtitulo"></div>
+    </div>
+    <div class="ficha-img-wrap" id="ficha-img-wrap"></div>
+    <div class="ficha-body">
+      <div class="ficha-tabs">
+        <button class="ficha-tab active" onclick="setFichaTab('publica',this)">Información pública</button>
+        <button class="ficha-tab" onclick="setFichaTab('admin',this)">Datos técnicos 🔒</button>
+      </div>
+      <div class="ficha-panel active" id="panel-publica">
+        <div class="ficha-grid" id="ficha-campos-publicos"></div>
+      </div>
+      <div class="ficha-panel" id="panel-admin">
+        <div class="admin-badge">🔒 Datos de administración interna</div>
+        <div class="admin-grid" id="ficha-campos-admin"></div>
+      </div>
+    </div>
+    <div class="ficha-nav">
+      <button class="ficha-nav-btn" id="btn-prev" onclick="navFicha(-1)">← Anterior</button>
+      <span class="ficha-nav-pos" id="ficha-nav-pos"></span>
+      <button class="ficha-nav-btn" id="btn-next" onclick="navFicha(1)">Siguiente →</button>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- COLABORÁ -->
-<section class="contact-section" id="colabora">
-  <div class="section-label">Sumate al proyecto</div>
-  <h2 class="section-title" style="margin-bottom: 1rem;">¿Tenés materiales de la escuela?</h2>
-  <p>Fotos, videos, diplomas, revistas, actas, recuerdos escritos o cualquier material relacionado con la historia de la ET23 Casal Calviño. Todo suma.</p>
-  <div class="contact-ways">
-    <div class="contact-way">
-      <span class="contact-way-icon">📷</span>
-      <div class="contact-way-title">Fotos y videos</div>
-      <div class="contact-way-desc">Fotos de actos, talleres, egresados, vida escolar de cualquier época.</div>
+<!-- BUSCADOR MODAL -->
+<div class="search-modal-overlay" id="searchModal">
+  <div class="search-modal">
+    <div class="search-modal-header">
+      <h2 class="search-modal-title">Buscador del archivo</h2>
+      <button class="search-modal-close" onclick="closeSearchModal()">✕</button>
     </div>
-    <div class="contact-way">
-      <span class="contact-way-icon">📄</span>
-      <div class="contact-way-title">Documentos</div>
-      <div class="contact-way-desc">Boletines, diplomas, revistas escolares, programas de actos, cartas.</div>
+    <input type="text" class="search-modal-input" id="searchModalInput" placeholder="Buscar por título, año, descripción, personas..." oninput="runSearch(this.value)">
+    <div class="search-results" id="searchResults">
+      <div class="search-no-results">Escribí para buscar en el archivo...</div>
     </div>
-    <div class="contact-way">
-      <span class="contact-way-icon">🎤</span>
-      <div class="contact-way-title">Tu testimonio</div>
-      <div class="contact-way-desc">Grabamos tu relato como ex alumno/a o ex docente. Tu historia es parte del archivo.</div>
-    </div>
-  </div>
-  <p class="contact-email">hernan.ricci@bue.edu.ar</p>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>Archivo Histórico — Escuela Técnia N°23 Casal Calviño · Ciudad de Buenos Aires</p>
-  <p>Proyecto de recuperación de memoria institucional · En construcción permanente</p>
-  <p style="margin-top: 8px;"><a href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank">Ver archivo completo en Google Drive</a></p>
-</footer>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-inner">
-    <button class="lightbox-close" onclick="closeLightbox()">✕ Cerrar</button>
-    <p class="lightbox-type" id="lb-type" style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;color:var(--sepia-mid);text-transform:uppercase;margin-bottom:8px;"></p>
-    <h3 class="lightbox-title" id="lb-title"></h3>
-    <p class="lightbox-meta" id="lb-meta"></p>
-    <a class="lightbox-drive-btn" id="lb-link" href="#" target="_blank">Abrir en Google Drive →</a>
   </div>
 </div>
 
 <script>
-// ── DATOS: todas las fotos de Drive ──
-const items = [
-  { id:'1mZ5kP_rPMvA4ErsVJvbFcHABJvoXNDA8', title:'Diapositiva _MG_9823', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1mZ5kP_rPMvA4ErsVJvbFcHABJvoXNDA8/view' },
-  { id:'1rP3LtWydaf8lY7TjSKZTGFcNL0gq59A4', title:'Diapositiva _MG_9830', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1rP3LtWydaf8lY7TjSKZTGFcNL0gq59A4/view' },
-  { id:'1_iyoPxTd8rUI6WWQKS96q5G0jmEYcgPc', title:'Diapositiva _MG_9830-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1_iyoPxTd8rUI6WWQKS96q5G0jmEYcgPc/view' },
-  { id:'10HwOClgmp6kEoTNZ8QnI-bh5omle_b_S', title:'Diapositiva _MG_9832', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/10HwOClgmp6kEoTNZ8QnI-bh5omle_b_S/view' },
-  { id:'1FVb8IJc9UBKojqDqExNcZBlhE22qYqOk', title:'Diapositiva _MG_9832-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1FVb8IJc9UBKojqDqExNcZBlhE22qYqOk/view' },
-  { id:'1B7Wy13hNQVpQiRDGKZFxPbPTnqhYazJJ', title:'Diapositiva _MG_9835', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1B7Wy13hNQVpQiRDGKZFxPbPTnqhYazJJ/view' },
-  { id:'1wz6XfjMfu-mUQBfolO9hdPdJDEwnem02', title:'Diapositiva _MG_9835-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1wz6XfjMfu-mUQBfolO9hdPdJDEwnem02/view' },
-  { id:'1z5mNPl1vfW6d9cHszYT8zKvni5uu1ALt', title:'Diapositiva _MG_9835-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1z5mNPl1vfW6d9cHszYT8zKvni5uu1ALt/view' },
-  { id:'167PLTdgyWbxvPJmPZ0gQx7DAFccwMxPA', title:'Diapositiva _MG_9837', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/167PLTdgyWbxvPJmPZ0gQx7DAFccwMxPA/view' },
-  { id:'1TQWWmr5PHdnANrXVLCAHaP_e9iy9Jnpy', title:'Diapositiva _MG_9837-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1TQWWmr5PHdnANrXVLCAHaP_e9iy9Jnpy/view' },
-  { id:'1uG1nUIzH532VEc0Rrsi1aI3Boytyi9UN', title:'Diapositiva _MG_9838', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1uG1nUIzH532VEc0Rrsi1aI3Boytyi9UN/view' },
-  { id:'1-2NDhdbGgNwBxa-DdsUTc8RMPKbdH7y7', title:'Diapositiva _MG_9838-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1-2NDhdbGgNwBxa-DdsUTc8RMPKbdH7y7/view' },
-  { id:'1ztXOvcXhfS-YA0M2xe_9Sowiup6g7Nve', title:'Diapositiva _MG_9842', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ztXOvcXhfS-YA0M2xe_9Sowiup6g7Nve/view' },
-  { id:'1o1R_xCeEC8L0RxIaHNUVqUW-k41An07z', title:'Diapositiva _MG_9842-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1o1R_xCeEC8L0RxIaHNUVqUW-k41An07z/view' },
-  { id:'1ThMi7573BgztCm4WAlU-JU_KjNY9QcFA', title:'Diapositiva _MG_9842-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ThMi7573BgztCm4WAlU-JU_KjNY9QcFA/view' },
-  { id:'1IRA25vls8jFREDHvEADDFwcdDXdkTkCW', title:'Diapositiva _MG_9843', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1IRA25vls8jFREDHvEADDFwcdDXdkTkCW/view' },
-  { id:'1P0OqTWJDpFsKMRUNJPFVzPOijYAqbJZG', title:'Diapositiva _MG_9848', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1P0OqTWJDpFsKMRUNJPFVzPOijYAqbJZG/view' },
-  { id:'1VQ1Hucj4TAy_e_mchIEryNIJHl_CSG3q', title:'Diapositiva _MG_9848-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1VQ1Hucj4TAy_e_mchIEryNIJHl_CSG3q/view' },
-  { id:'1vhV0Hp--xz0yWj6JMC3q_Sg_kTJoRIiK', title:'Diapositiva _MG_9849', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1vhV0Hp--xz0yWj6JMC3q_Sg_kTJoRIiK/view' },
-  { id:'1GGsNLaNUdwXJgqfvqBEh97E-hr_gWHf-', title:'Diapositiva _MG_9849-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1GGsNLaNUdwXJgqfvqBEh97E-hr_gWHf-/view' },
-  { id:'1BiqkZ3wc86A2rjCcmZugEYr_G9qoK_Br', title:'Diapositiva _MG_9850', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1BiqkZ3wc86A2rjCcmZugEYr_G9qoK_Br/view' },
-  { id:'1_z5iIeNkHiLBQlSj6KePLBzqqcmbWNUp', title:'Diapositiva _MG_9850-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1_z5iIeNkHiLBQlSj6KePLBzqqcmbWNUp/view' },
-  { id:'1xlPNV-_QDkzGW7Pf69gbglbeNralpm6T', title:'Diapositiva _MG_9851', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1xlPNV-_QDkzGW7Pf69gbglbeNralpm6T/view' },
-  { id:'1nhf5V0JL1flXnGH4agYc2hkqAhLkLiGl', title:'Diapositiva _MG_9851-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1nhf5V0JL1flXnGH4agYc2hkqAhLkLiGl/view' },
-  { id:'1UvICfp5zLUBJYS1reYRT2uIpBRtB2aBa', title:'Diapositiva _MG_9852', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1UvICfp5zLUBJYS1reYRT2uIpBRtB2aBa/view' },
-  { id:'1jlLhMS6iHukP9GJ9U_uvDXQrnVSThb2J', title:'Diapositiva _MG_9852-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1jlLhMS6iHukP9GJ9U_uvDXQrnVSThb2J/view' },
-  { id:'1kkanS0yk0Z2_vKLqI4a3ppnfI3LtS9Xc', title:'Diapositiva _MG_9853', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1kkanS0yk0Z2_vKLqI4a3ppnfI3LtS9Xc/view' },
-  { id:'1I_zOsyWj-W0GLCh_WXjDkACYvPdDC_7j', title:'Diapositiva _MG_9853-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1I_zOsyWj-W0GLCh_WXjDkACYvPdDC_7j/view' },
-  { id:'1aJ30Qv7Gpm8BrK4Xn33YrSsePvvJUm2p', title:'Diapositiva _MG_9853-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1aJ30Qv7Gpm8BrK4Xn33YrSsePvvJUm2p/view' },
-  { id:'1lqnDCs-5KCipo3ZNyRwbaKvz-50CbUl9', title:'Diapositiva _MG_9854', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1lqnDCs-5KCipo3ZNyRwbaKvz-50CbUl9/view' },
-  { id:'17qkAaFgEGl755rxfA7BlRUrs1VU5-eVZ', title:'Diapositiva _MG_9854-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/17qkAaFgEGl755rxfA7BlRUrs1VU5-eVZ/view' },
-  { id:'1B6rbuYvM0OMxobHDkS-yss3qVcrzkBz_', title:'Diapositiva _MG_9855', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1B6rbuYvM0OMxobHDkS-yss3qVcrzkBz_/view' },
-  { id:'1JRx3V6tFSJ4AUc2fK-tI082j1Mu5WxSq', title:'Diapositiva _MG_9855-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1JRx3V6tFSJ4AUc2fK-tI082j1Mu5WxSq/view' },
-  { id:'1YU2I-5X0_IdwiU99x-uN8G7brbGGPfFw', title:'Diapositiva _MG_9856', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1YU2I-5X0_IdwiU99x-uN8G7brbGGPfFw/view' },
-  { id:'18nBfNMq-3oXZuSAVOMlnBlGvzVdEn-bu', title:'Diapositiva _MG_9856-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/18nBfNMq-3oXZuSAVOMlnBlGvzVdEn-bu/view' },
-  { id:'1GKqQmrGTUumDf4by4e7oyexjiugqAWLB', title:'Diapositiva _MG_9857', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1GKqQmrGTUumDf4by4e7oyexjiugqAWLB/view' },
-  { id:'1R_DHz86_hv2bpYmghMeS-WjmttJ21j71', title:'Diapositiva _MG_9857-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1R_DHz86_hv2bpYmghMeS-WjmttJ21j71/view' },
-  { id:'1lVFDn6mM2q9zV5yz3xYZOQYW2I6Fc8aN', title:'Diapositiva _MG_9858', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1lVFDn6mM2q9zV5yz3xYZOQYW2I6Fc8aN/view' },
-  { id:'1bJyswv8iA4ENlLLJqtum9GF_ZC0lHtL1', title:'Diapositiva _MG_9858-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1bJyswv8iA4ENlLLJqtum9GF_ZC0lHtL1/view' },
-  { id:'19a8ceARxHnfY2fksW8GYtDUUPYILZ6fn', title:'Diapositiva _MG_9859', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/19a8ceARxHnfY2fksW8GYtDUUPYILZ6fn/view' },
-  { id:'1Bxf-q53yGzyaUnECw9ZCdARWFNdmtNVU', title:'Diapositiva _MG_9859-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1Bxf-q53yGzyaUnECw9ZCdARWFNdmtNVU/view' },
-  { id:'1ZLsi1lArcycd2UPogOSsdzVoLfjICr9L', title:'Diapositiva _MG_9860', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ZLsi1lArcycd2UPogOSsdzVoLfjICr9L/view' },
-  { id:'1WaQ52cg_FbPqe6aRskxMY0TL5AFujlyi', title:'Diapositiva _MG_9860-2', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1WaQ52cg_FbPqe6aRskxMY0TL5AFujlyi/view' },
-  { id:'1ZeZp5MnxYSUUpMBzZ-VTj6fdCrRiMvyN', title:'Diapositiva _MG_9860-3', type:'diapositiva', date:'2024', url:'https://drive.google.com/file/d/1ZeZp5MnxYSUUpMBzZ-VTj6fdCrRiMvyN/view' },
-  { id:'1wTDauA6Wkog7RlqtyqmcFWjvRxdEWR4_', title:'Foto Escuela — Remera Azul', type:'foto', date:'2023', url:'https://drive.google.com/file/d/1wTDauA6Wkog7RlqtyqmcFWjvRxdEWR4_/view' },
-  { id:'1fRMgLE8Ta-bsHMvVu8X6tpQLnH6y_Szq', title:'Foto Escuela — Remera Negro', type:'foto', date:'2023', url:'https://drive.google.com/file/d/1fRMgLE8Ta-bsHMvVu8X6tpQLnH6y_Szq/view' },
-];
+// ── CONFIG ──
+const SHEET_ID = '14Z_afnjuYZL8pJNXpOmlQgiGsEQ6LoUj';
+const SHEETS = {
+  '70s':      { name:'Fotos_70s',      label:'Años 70',  icon:'📷' },
+  '90s':      { name:'Fotos_90s',      label:'Años 90',  icon:'📷' },
+  'edificio': { name:'Fotos_Edificio', label:'Edificio', icon:'🏛' },
+  'videos':   { name:'Videos',         label:'Video',    icon:'🎬' },
+};
 
-const TYPE_LABELS = { diapositiva: 'Diapositiva', foto: 'Fotografía', video: 'Video', documento: 'Documento' };
-const TYPE_ICONS  = { diapositiva: '🎞', foto: '📷', video: '🎬', documento: '📄' };
+// Columnas del Excel de fotos (0-indexed)
+// ID | Nombre archivo | Título | Año exacto | Período | Categoría | Personas | Lugar | Descripción | Fuente | Estado | Derechos | Publicar | Notas | Link Drive
+const COL = { id:0, nombre:1, titulo:2, anio:3, periodo:4, categoria:5, personas:6, lugar:7, descripcion:8, fuente:9, estado:10, derechos:11, publicar:12, notas:13, link:14 };
+const VCOL = { id:0, nombre:1, titulo:2, anio:3, duracion:4, formato:5, tamanio:6, descripcion:7, personas:8, lugar:9, fuente:10, derechos:11, publicar:12, notas:13, link:14 };
 
-let activeFilter = '';
+let allItems = [];   // todos los ítems cargados
+let activeDecade = 'all';
+let currentFichaIndex = 0;
+let filteredItems = [];
 
-function setFilter(type, btn) {
-  activeFilter = type;
-  document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  filterGallery();
+function csvUrl(sheetName) {
+  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
 }
 
-function filterGallery() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  return lines.slice(3).map(line => { // skip rows 1-3 (title, subtitle, headers)
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i=0; i<line.length; i++) {
+      const c = line[i];
+      if (c==='"') { inQ=!inQ; }
+      else if (c===',' && !inQ) { cols.push(cur.trim()); cur=''; }
+      else { cur+=c; }
+    }
+    cols.push(cur.trim());
+    return cols;
+  }).filter(r => r[0] && r[0].trim());
+}
+
+async function fetchSheet(sheetName) {
+  const res = await fetch(csvUrl(sheetName));
+  const text = await res.text();
+  return parseCSV(text);
+}
+
+function driveId(linkOrId) {
+  if (!linkOrId) return null;
+  const m = linkOrId.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  return m ? m[1] : linkOrId.trim();
+}
+
+function thumbUrl(id) {
+  return `https://drive.google.com/thumbnail?id=${id}&sz=w400`;
+}
+
+async function loadAll() {
+  allItems = [];
+  const decades = ['70s','90s','edificio'];
+  for (const dec of decades) {
+    try {
+      const rows = await fetchSheet(SHEETS[dec].name);
+      rows.forEach((r,i) => {
+        const id = driveId(r[COL.link]);
+        allItems.push({ decade:dec, row:r, driveId:id, index:allItems.length });
+      });
+    } catch(e) { console.warn('Error cargando', dec, e); }
+  }
+
+  // Videos
+  try {
+    const vrows = await fetchSheet(SHEETS.videos.name);
+    vrows.forEach((r,i) => {
+      allItems.push({ decade:'video', row:r, driveId:driveId(r[VCOL.link]), index:allItems.length, isVideo:true });
+    });
+  } catch(e) { console.warn('Error cargando videos', e); }
+
+  updateStats();
+  renderGallery();
+  renderVideos();
+}
+
+function updateStats() {
+  const fotos = allItems.filter(i=>!i.isVideo);
+  const catalogadas = fotos.filter(i=> i.row[COL.titulo] && i.row[COL.titulo].trim()).length;
+  document.getElementById('stat-fotos').textContent = fotos.length;
+  document.getElementById('stat-catalogadas').textContent = catalogadas;
+}
+
+function setDecade(dec, btn) {
+  activeDecade = dec;
+  document.querySelectorAll('.decade-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery();
+}
+
+function getVisibleItems() {
+  return allItems.filter(i => {
+    if (i.isVideo) return false;
+    if (activeDecade === 'all') return true;
+    return i.decade === activeDecade;
+  });
+}
+
+function renderGallery() {
+  filteredItems = getVisibleItems();
   const grid = document.getElementById('galleryGrid');
-  const filtered = items.filter(i =>
-    (!activeFilter || i.type === activeFilter) &&
-    (!q || i.title.toLowerCase().includes(q) || i.type.includes(q) || i.date.includes(q))
-  );
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="no-results">No se encontraron resultados para esa búsqueda.</div>';
+  if (!filteredItems.length) {
+    grid.innerHTML = '<div class="loading-state">No hay ítems en esta categoría.</div>';
     return;
   }
-  grid.innerHTML = filtered.map(item => {
-    const thumb = item.type === 'diapositiva' || item.type === 'foto'
-      ? `<img src="https://drive.google.com/thumbnail?id=${item.id}&sz=w400" alt="${item.title}" loading="lazy" onerror="this.classList.add('error')">`
-      : '';
-    return `
-    <div class="gallery-item" data-id="${item.id}">
+  grid.innerHTML = filteredItems.map((item, fi) => {
+    const r = item.row;
+    const titulo = r[COL.titulo] && r[COL.titulo].trim() ? r[COL.titulo] : r[COL.nombre];
+    const anio = r[COL.anio] && r[COL.anio].trim() ? r[COL.anio] : r[COL.periodo];
+    const catalogada = r[COL.titulo] && r[COL.titulo].trim();
+    const thumb = item.driveId ? thumbUrl(item.driveId) : null;
+    return `<div class="gallery-item" onclick="openFicha(${fi})">
       <div class="gallery-thumb">
-        ${thumb}
-        <span class="gallery-thumb-icon">${TYPE_ICONS[item.type] || '📦'}</span>
-        <a class="gallery-link" href="${item.url}" target="_blank">
-          <span class="gallery-link-label">Abrir en Drive</span>
-        </a>
+        ${thumb ? `<img src="${thumb}" alt="${titulo}" class="loading" onload="this.classList.add('loaded');this.classList.remove('loading')" onerror="this.style.display='none'">` : ''}
+        <span class="gallery-thumb-icon">${SHEETS[item.decade]?.icon||'📷'}</span>
+        <div class="gallery-overlay"><span class="gallery-overlay-label">Ver ficha</span></div>
       </div>
       <div class="gallery-info">
-        <div class="gallery-type">${TYPE_LABELS[item.type] || item.type}</div>
-        <div class="gallery-title">${item.title}</div>
-        <div class="gallery-date">${item.date}</div>
+        <div class="gallery-decade">${SHEETS[item.decade]?.label||''}</div>
+        <div class="gallery-title">${titulo}</div>
+        <div class="gallery-date">${anio||''}</div>
+        <span class="gallery-status ${catalogada?'catalogada':''}">${catalogada?'Catalogada':'Sin catalogar'}</span>
       </div>
     </div>`;
   }).join('');
 }
 
-function closeLightbox(e) {
-  if (!e || e.target === document.getElementById('lightbox')) {
-    document.getElementById('lightbox').classList.remove('open');
+function renderVideos() {
+  const videos = allItems.filter(i=>i.isVideo);
+  const grid = document.getElementById('videosGrid');
+  if (!videos.length) { grid.innerHTML = '<div class="loading-state" style="background:var(--navy-lt);color:var(--warm-gray);">Sin videos cargados.</div>'; return; }
+  grid.innerHTML = videos.map(item => {
+    const r = item.row;
+    const titulo = r[VCOL.titulo]?.trim() || r[VCOL.nombre];
+    const link = r[VCOL.link]?.trim() || '#';
+    return `<div class="video-card" onclick="openVideoFicha(${item.index})">
+      <span class="video-icon">🎬</span>
+      <div class="video-title">${titulo||r[VCOL.nombre]}</div>
+      <div class="video-meta">${r[VCOL.formato]||'MP4'} · ${r[VCOL.tamanio]||''} · ${r[VCOL.anio]||''}</div>
+      <a class="video-btn" href="${link}" target="_blank" onclick="event.stopPropagation()">Ver en Drive →</a>
+    </div>`;
+  }).join('');
+}
+
+// ── FICHA ──
+function val(v) { return v && v.trim() ? v.trim() : null; }
+
+function campoPublico(label, value, full=false) {
+  const empty = !value;
+  return `<div class="ficha-campo ${full?'full':''}">
+    <div class="ficha-campo-label">${label}</div>
+    <div class="ficha-campo-valor ${empty?'empty':''}">${value||'Sin datos'}</div>
+  </div>`;
+}
+
+function campoAdmin(label, value) {
+  const empty = !value;
+  return `<div>
+    <div class="admin-campo-label">${label}</div>
+    <div class="admin-campo-valor ${empty?'empty':''}">${value||'—'}</div>
+  </div>`;
+}
+
+function openFicha(filteredIndex) {
+  currentFichaIndex = filteredIndex;
+  const item = filteredItems[filteredIndex];
+  renderFicha(item, filteredIndex, filteredItems.length);
+  document.getElementById('fichaModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function openVideoFicha(globalIndex) {
+  const item = allItems[globalIndex];
+  const videos = allItems.filter(i=>i.isVideo);
+  const vi = videos.indexOf(item);
+  // Temporarily set filteredItems to videos for navigation
+  filteredItems = videos;
+  currentFichaIndex = vi;
+  renderFichaVideo(item, vi, videos.length);
+  document.getElementById('fichaModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderFicha(item, idx, total) {
+  const r = item.row;
+  const titulo = val(r[COL.titulo]) || val(r[COL.nombre]) || 'Sin título';
+  const id = val(r[COL.id]) || '—';
+  const driveLink = val(r[COL.link]);
+  const dId = item.driveId;
+
+  document.getElementById('ficha-id').textContent = id;
+  document.getElementById('ficha-titulo').textContent = titulo;
+  document.getElementById('ficha-subtitulo').textContent = `${SHEETS[item.decade]?.label||''} · ${val(r[COL.anio])||val(r[COL.periodo])||''}`;
+
+  // Imagen
+  const imgWrap = document.getElementById('ficha-img-wrap');
+  imgWrap.innerHTML = dId
+    ? `<img src="${thumbUrl(dId)}" alt="${titulo}" style="max-height:380px;max-width:100%;object-fit:contain;" onerror="this.outerHTML='<div class=ficha-img-icon>📷</div>'">`
+    : `<div class="ficha-img-icon">📷</div>`;
+  imgWrap.innerHTML += `<div class="ficha-img-actions">
+    ${driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Abrir imagen completa →</a>` : ''}
+    <button class="ficha-btn ficha-btn-secondary" onclick="navigator.clipboard.writeText('${driveLink||''}').then(()=>alert('Link copiado'))">Copiar link</button>
+  </div>`;
+
+  // Campos públicos
+  document.getElementById('ficha-campos-publicos').innerHTML =
+    campoPublico('Título', val(r[COL.titulo])) +
+    campoPublico('Año / Período', val(r[COL.anio]) || val(r[COL.periodo])) +
+    campoPublico('Categoría temática', val(r[COL.categoria])) +
+    campoPublico('Lugar / Espacio', val(r[COL.lugar])) +
+    campoPublico('Personas identificadas', val(r[COL.personas]), true) +
+    campoPublico('Descripción', val(r[COL.descripcion]), true) +
+    campoPublico('Fuente / Donante', val(r[COL.fuente])) +
+    campoPublico('Derechos / Autoría', val(r[COL.derechos]));
+
+  // Campos admin
+  document.getElementById('ficha-campos-admin').innerHTML =
+    campoAdmin('ID de archivo', val(r[COL.id])) +
+    campoAdmin('Nombre de archivo', val(r[COL.nombre])) +
+    campoAdmin('Estado de conservación', val(r[COL.estado])) +
+    campoAdmin('Publicar en web', val(r[COL.publicar])) +
+    campoAdmin('Notas internas', val(r[COL.notas])) +
+    campoAdmin('ID Google Drive', item.driveId);
+
+  // Navegación
+  document.getElementById('ficha-nav-pos').textContent = `${idx+1} de ${total}`;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === total-1;
+
+  // Reset tab
+  setFichaTab('publica', document.querySelector('.ficha-tab'));
+}
+
+function renderFichaVideo(item, idx, total) {
+  const r = item.row;
+  const titulo = val(r[VCOL.titulo]) || val(r[VCOL.nombre]) || 'Sin título';
+  const driveLink = val(r[VCOL.link]);
+
+  document.getElementById('ficha-id').textContent = val(r[VCOL.id]) || '—';
+  document.getElementById('ficha-titulo').textContent = titulo;
+  document.getElementById('ficha-subtitulo').textContent = `Video · ${val(r[VCOL.anio])||''}`;
+
+  document.getElementById('ficha-img-wrap').innerHTML = `
+    <div class="ficha-img-icon" style="font-size:3rem;padding:2rem;">🎬</div>
+    <div class="ficha-img-actions">
+      ${driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Ver video en Drive →</a>` : ''}
+    </div>`;
+
+  document.getElementById('ficha-campos-publicos').innerHTML =
+    campoPublico('Título', val(r[VCOL.titulo])) +
+    campoPublico('Año', val(r[VCOL.anio])) +
+    campoPublico('Formato', val(r[VCOL.formato])) +
+    campoPublico('Tamaño', val(r[VCOL.tamanio])) +
+    campoPublico('Descripción del contenido', val(r[VCOL.descripcion]), true) +
+    campoPublico('Personas / voces', val(r[VCOL.personas]), true) +
+    campoPublico('Lugar filmado', val(r[VCOL.lugar])) +
+    campoPublico('Fuente / Autor', val(r[VCOL.fuente]));
+
+  document.getElementById('ficha-campos-admin').innerHTML =
+    campoAdmin('ID de archivo', val(r[VCOL.id])) +
+    campoAdmin('Nombre de archivo', val(r[VCOL.nombre])) +
+    campoAdmin('Derechos', val(r[VCOL.derechos])) +
+    campoAdmin('Publicar en web', val(r[VCOL.publicar])) +
+    campoAdmin('Notas internas', val(r[VCOL.notas]));
+
+  document.getElementById('ficha-nav-pos').textContent = `${idx+1} de ${total}`;
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === total-1;
+  setFichaTab('publica', document.querySelector('.ficha-tab'));
+}
+
+function navFicha(dir) {
+  const newIdx = currentFichaIndex + dir;
+  if (newIdx < 0 || newIdx >= filteredItems.length) return;
+  currentFichaIndex = newIdx;
+  const item = filteredItems[newIdx];
+  if (item.isVideo) renderFichaVideo(item, newIdx, filteredItems.length);
+  else renderFicha(item, newIdx, filteredItems.length);
+  document.getElementById('fichaModal').scrollTop = 0;
+}
+
+function closeFicha() {
+  document.getElementById('fichaModal').classList.remove('open');
+  document.body.style.overflow = '';
+  filteredItems = getVisibleItems();
+}
+
+function setFichaTab(tab, btn) {
+  document.querySelectorAll('.ficha-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ficha-panel').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.getElementById('panel-'+tab).classList.add('active');
+}
+
+// ── BUSCADOR ──
+function openSearchModal() {
+  document.getElementById('searchModal').classList.add('open');
+  document.getElementById('searchModalInput').focus();
+  document.body.style.overflow = 'hidden';
+  runSearch('');
+}
+
+function closeSearchModal() {
+  document.getElementById('searchModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function runSearch(q) {
+  const container = document.getElementById('searchResults');
+  if (!q.trim()) {
+    const total = allItems.length;
+    container.innerHTML = `<div class="search-no-results">Total en el archivo: ${total} ítems. Escribí para buscar...</div>`;
+    return;
+  }
+  const ql = q.toLowerCase();
+  const results = allItems.filter(item => {
+    const r = item.row;
+    return Object.values(r).some(v => v && v.toLowerCase().includes(ql));
+  }).slice(0, 30);
+
+  if (!results.length) {
+    container.innerHTML = '<div class="search-no-results">No se encontraron resultados.</div>';
+    return;
+  }
+
+  container.innerHTML = results.map(item => {
+    const r = item.row;
+    const isV = item.isVideo;
+    const titulo = val(r[isV?VCOL.titulo:COL.titulo]) || val(r[isV?VCOL.nombre:COL.nombre]) || 'Sin título';
+    const id = val(r[0]) || '—';
+    const meta = val(r[isV?VCOL.anio:COL.anio]) || val(r[isV?0:COL.periodo]) || '';
+    const thumb = (!isV && item.driveId) ? thumbUrl(item.driveId) : null;
+    return `<div class="search-result-item" onclick="onSearchClick(${item.index})">
+      ${thumb
+        ? `<img class="search-result-thumb" src="${thumb}" alt="${titulo}" onerror="this.outerHTML='<div class=search-result-icon>${isV?'🎬':'📷'}</div>'">`
+        : `<div class="search-result-icon">${isV?'🎬':'📷'}</div>`}
+      <div class="search-result-info">
+        <div class="search-result-id">${id}</div>
+        <div class="search-result-title">${titulo}</div>
+        <div class="search-result-meta">${SHEETS[item.decade]?.label||'Video'} · ${meta}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function onSearchClick(globalIdx) {
+  closeSearchModal();
+  const item = allItems[globalIdx];
+  if (item.isVideo) {
+    scrollTo('videos');
+    setTimeout(() => openVideoFicha(globalIdx), 300);
+  } else {
+    const decade = item.decade;
+    setDecade(decade, document.querySelector(`.decade-tab[onclick*="${decade}"]`) || document.querySelector('.decade-tab.active'));
+    filteredItems = getVisibleItems();
+    const fi = filteredItems.findIndex(i => i.index === globalIdx);
+    if (fi >= 0) { scrollTo('fotos'); setTimeout(() => openFicha(fi), 300); }
   }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+// ── HELPERS ──
+function scrollTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
+function showMain() { window.scrollTo({top:0,behavior:'smooth'}); }
 
-// Render inicial
-filterGallery();
+// Cerrar modales con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeFicha(); closeSearchModal(); }
+});
+document.getElementById('fichaModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('fichaModal')) closeFicha();
+});
+document.getElementById('searchModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('searchModal')) closeSearchModal();
+});
+
+// ── INICIAR ──
+loadAll();
 </script>
 </body>
 </html>
