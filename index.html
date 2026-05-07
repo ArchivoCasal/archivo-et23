@@ -117,22 +117,21 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--off-white); colo
 .ficha-id { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; }
 .ficha-titulo { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--white); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:600px; }
 .ficha-subtitulo { font-size:10px; color:rgba(181,212,244,.4); font-family:'IBM Plex Mono',monospace; }
-.ficha-layout { display:grid; grid-template-columns:1fr 360px; overflow:hidden; max-height:calc(96vh - 58px); }
-@media(max-width:860px) { .ficha-layout { grid-template-columns:1fr; grid-template-rows:50vh 1fr; } }
-.ficha-img-panel { background:#060E1C; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
-.ficha-img-panel img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.ficha-layout { display:grid; grid-template-columns:1fr 340px; overflow:hidden; max-height:calc(96vh - 58px); }
+@media(max-width:860px) { .ficha-layout { grid-template-columns:1fr; grid-template-rows:auto auto auto 1fr; max-height:none; overflow:visible; } }
+.ficha-img-panel { background:#060E1C; display:flex; flex-direction:column; align-items:stretch; position:relative; overflow:hidden; }
+.ficha-img-main { flex:1; display:flex; align-items:center; justify-content:center; min-height:0; padding:0; }
+.ficha-img-main img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
 .ficha-img-icon { font-size:5rem; opacity:.15; }
-.ficha-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(10,22,40,.75); border:2px solid rgba(55,138,221,.5); color:white; width:56px; height:56px; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; z-index:10; border-radius:3px; backdrop-filter:blur(6px); }
-.ficha-arrow:hover:not(:disabled) { background:var(--blue); border-color:var(--blue); transform:translateY(-50%) scale(1.1); box-shadow:0 0 24px rgba(55,138,221,.5); }
-.ficha-arrow:disabled { opacity:.12; cursor:default; }
-.ficha-arrow-prev { left:1rem; }
-.ficha-arrow-next { right:1rem; }
-.ficha-arrow-hint { position:absolute; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.08em; color:rgba(255,255,255,.7); background:var(--blue); padding:3px 10px; border-radius:999px; white-space:nowrap; top:calc(50% + 38px); pointer-events:none; opacity:0; transition:opacity .15s; }
-.ficha-arrow-prev .ficha-arrow-hint { left:1rem; }
-.ficha-arrow-next .ficha-arrow-hint { right:1rem; }
-.ficha-arrow:hover:not(:disabled) .ficha-arrow-hint { opacity:1; }
-.ficha-pos-badge { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%); background:rgba(10,22,40,.8); border:1px solid rgba(55,138,221,.3); font-family:'IBM Plex Mono',monospace; font-size:10px; color:rgba(181,212,244,.8); letter-spacing:.1em; padding:5px 16px; border-radius:999px; backdrop-filter:blur(4px); white-space:nowrap; }
-.ficha-img-actions { position:absolute; bottom:1rem; right:1rem; display:flex; flex-direction:column; gap:6px; }
+
+/* Barra de navegación DEBAJO de la imagen — siempre */
+.ficha-nav-bar { display:flex; align-items:center; justify-content:space-between; background:var(--navy); border-top:1px solid rgba(55,138,221,.15); padding:.6rem 1rem; flex-shrink:0; gap:.5rem; }
+.ficha-arrow { background:rgba(55,138,221,.1); border:2px solid rgba(55,138,221,.4); color:var(--blue-lt); width:52px; height:52px; font-size:26px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; border-radius:3px; flex-shrink:0; }
+.ficha-arrow:hover:not(:disabled) { background:var(--blue); border-color:var(--blue); color:white; box-shadow:0 0 20px rgba(55,138,221,.4); transform:scale(1.06); }
+.ficha-arrow:disabled { opacity:.15; cursor:default; }
+.ficha-nav-center { display:flex; flex-direction:column; align-items:center; gap:6px; flex:1; }
+.ficha-pos-badge { font-family:'IBM Plex Mono',monospace; font-size:11px; color:rgba(181,212,244,.7); letter-spacing:.1em; white-space:nowrap; }
+.ficha-img-actions { display:flex; gap:6px; justify-content:center; }
 .ficha-btn { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; padding:7px 14px; text-decoration:none; text-transform:uppercase; transition:all .12s; cursor:pointer; border:none; display:inline-block; text-align:center; }
 .ficha-btn-primary { background:var(--blue); color:white; }
 .ficha-btn-primary:hover { opacity:.85; }
@@ -402,23 +401,19 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
     </div>
     <!-- Layout imagen + ficha -->
     <div class="ficha-layout">
-      <!-- Panel izquierdo: imagen grande -->
+      <!-- Panel izquierdo: imagen grande + nav bar debajo -->
       <div class="ficha-img-panel" id="ficha-img-panel">
-        <!-- Flechas navegación grandes -->
-        <button class="ficha-arrow ficha-arrow-prev" id="btn-prev" onclick="navFicha(-1)">
-          ‹
-          <span class="ficha-arrow-hint">Anterior</span>
-        </button>
-        <button class="ficha-arrow ficha-arrow-next" id="btn-next" onclick="navFicha(1)">
-          ›
-          <span class="ficha-arrow-hint">Siguiente</span>
-        </button>
         <!-- Imagen -->
-        <div id="ficha-img-wrap" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;"></div>
-        <!-- Contador -->
-        <div class="ficha-pos-badge" id="ficha-nav-pos"></div>
-        <!-- Botones acción -->
-        <div class="ficha-img-actions" id="ficha-img-actions"></div>
+        <div class="ficha-img-main" id="ficha-img-wrap"></div>
+        <!-- Barra de navegación DEBAJO de la imagen -->
+        <div class="ficha-nav-bar">
+          <button class="ficha-arrow ficha-arrow-prev" id="btn-prev" onclick="navFicha(-1)">‹</button>
+          <div class="ficha-nav-center">
+            <div class="ficha-pos-badge" id="ficha-nav-pos"></div>
+            <div class="ficha-img-actions" id="ficha-img-actions"></div>
+          </div>
+          <button class="ficha-arrow ficha-arrow-next" id="btn-next" onclick="navFicha(1)">›</button>
+        </div>
       </div>
       <!-- Panel derecho: ficha técnica -->
       <div class="ficha-data-panel">
@@ -654,8 +649,9 @@ function renderFicha(item, idx, total) {
 
   // Imagen
   const imgWrap = document.getElementById('ficha-img-wrap');
+  imgWrap.style.cssText = '';
   imgWrap.innerHTML = dId
-    ? `<img src="${thumbUrl(dId)}" alt="${titulo}" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.outerHTML='<div style=font-size:4rem;opacity:.15>📷</div>'">`
+    ? `<img src="${thumbUrl(dId)}" alt="${titulo}" style="max-width:100%;max-height:calc(96vh - 130px);object-fit:contain;display:block;" onerror="this.outerHTML='<div style=font-size:4rem;opacity:.15>📷</div>'">`
     : `<div style="font-size:4rem;opacity:.15">📷</div>`;
 
   document.getElementById('ficha-img-actions').innerHTML =
