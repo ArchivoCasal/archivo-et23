@@ -107,63 +107,52 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--off-white); colo
 @keyframes pulse { 0%,80%,100%{opacity:.2} 40%{opacity:1} }
 
 /* ── FICHA MODAL ── */
-.modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.92); z-index:500; overflow-y:auto; padding:2rem 1rem; }
-.modal-overlay.open { display:flex; align-items:flex-start; justify-content:center; }
-.modal { background:var(--white); width:min(820px,100%); position:relative; }
-.modal-close { position:absolute; top:1rem; right:1rem; background:var(--navy); color:rgba(181,212,244,.6); border:none; width:32px; height:32px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; transition:color .12s; }
-.modal-close:hover { color:var(--blue-lt); }
-
-/* Ficha header */
-.ficha-header { background:var(--navy-mid); padding:1.5rem 2rem; border-bottom:1px solid rgba(55,138,221,.2); }
-.ficha-id { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; margin-bottom:6px; }
-.ficha-titulo { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--white); line-height:1.2; margin-bottom:4px; }
-.ficha-subtitulo { font-size:12px; color:rgba(181,212,244,.5); font-family:'IBM Plex Mono',monospace; }
-
-/* Ficha imagen */
-.ficha-img-wrap { background:var(--navy); text-align:center; padding:1.5rem; border-bottom:1px solid rgba(55,138,221,.1); }
-.ficha-img-wrap img { max-height:380px; max-width:100%; object-fit:contain; }
-.ficha-img-wrap .ficha-img-icon { font-size:4rem; opacity:.2; }
-.ficha-img-actions { display:flex; gap:8px; justify-content:center; margin-top:1rem; }
-.ficha-btn { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; padding:6px 16px; text-decoration:none; text-transform:uppercase; transition:all .12s; cursor:pointer; border:none; }
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.95); z-index:500; overflow-y:auto; }
+.modal-overlay.open { display:flex; align-items:center; justify-content:center; min-height:100vh; padding:1rem; }
+.modal { background:var(--white); width:min(1100px,100%); position:relative; display:grid; grid-template-rows:auto 1fr; max-height:96vh; overflow:hidden; border-radius:2px; }
+.modal-close { background:rgba(55,138,221,.1); color:rgba(181,212,244,.6); border:1px solid rgba(55,138,221,.2); width:34px; height:34px; font-size:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .12s; border-radius:2px; }
+.modal-close:hover { background:rgba(55,138,221,.25); color:white; }
+.ficha-topbar { background:var(--navy); display:flex; align-items:center; justify-content:space-between; padding:.75rem 1.25rem; border-bottom:1px solid rgba(55,138,221,.2); }
+.ficha-topbar-left { display:flex; flex-direction:column; gap:2px; overflow:hidden; }
+.ficha-id { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.2em; color:var(--blue); text-transform:uppercase; }
+.ficha-titulo { font-family:'Playfair Display',serif; font-size:1.05rem; color:var(--white); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:600px; }
+.ficha-subtitulo { font-size:10px; color:rgba(181,212,244,.4); font-family:'IBM Plex Mono',monospace; }
+.ficha-layout { display:grid; grid-template-columns:1fr 360px; overflow:hidden; max-height:calc(96vh - 58px); }
+@media(max-width:860px) { .ficha-layout { grid-template-columns:1fr; grid-template-rows:50vh 1fr; } }
+.ficha-img-panel { background:#060E1C; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.ficha-img-panel img { max-width:100%; max-height:100%; object-fit:contain; display:block; }
+.ficha-img-icon { font-size:5rem; opacity:.15; }
+.ficha-arrow { position:absolute; top:50%; transform:translateY(-50%); background:rgba(10,22,40,.75); border:2px solid rgba(55,138,221,.5); color:white; width:56px; height:56px; font-size:24px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .15s; z-index:10; border-radius:3px; backdrop-filter:blur(6px); }
+.ficha-arrow:hover:not(:disabled) { background:var(--blue); border-color:var(--blue); transform:translateY(-50%) scale(1.1); box-shadow:0 0 24px rgba(55,138,221,.5); }
+.ficha-arrow:disabled { opacity:.12; cursor:default; }
+.ficha-arrow-prev { left:1rem; }
+.ficha-arrow-next { right:1rem; }
+.ficha-arrow-hint { position:absolute; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.08em; color:rgba(255,255,255,.7); background:var(--blue); padding:3px 10px; border-radius:999px; white-space:nowrap; top:calc(50% + 38px); pointer-events:none; opacity:0; transition:opacity .15s; }
+.ficha-arrow-prev .ficha-arrow-hint { left:1rem; }
+.ficha-arrow-next .ficha-arrow-hint { right:1rem; }
+.ficha-arrow:hover:not(:disabled) .ficha-arrow-hint { opacity:1; }
+.ficha-pos-badge { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%); background:rgba(10,22,40,.8); border:1px solid rgba(55,138,221,.3); font-family:'IBM Plex Mono',monospace; font-size:10px; color:rgba(181,212,244,.8); letter-spacing:.1em; padding:5px 16px; border-radius:999px; backdrop-filter:blur(4px); white-space:nowrap; }
+.ficha-img-actions { position:absolute; bottom:1rem; right:1rem; display:flex; flex-direction:column; gap:6px; }
+.ficha-btn { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; padding:7px 14px; text-decoration:none; text-transform:uppercase; transition:all .12s; cursor:pointer; border:none; display:inline-block; text-align:center; }
 .ficha-btn-primary { background:var(--blue); color:white; }
 .ficha-btn-primary:hover { opacity:.85; }
-.ficha-btn-secondary { border:1px solid rgba(55,138,221,.3); color:var(--blue-mid); background:none; }
-.ficha-btn-secondary:hover { background:rgba(55,138,221,.1); }
-
-/* Ficha body */
-.ficha-body { padding:1.5rem 2rem; }
-.ficha-tabs { display:flex; border-bottom:1px solid var(--border); margin-bottom:1.5rem; }
-.ficha-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; padding:8px 16px; border:none; background:none; cursor:pointer; color:var(--warm-gray); text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .12s; }
-.ficha-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
-.ficha-panel { display:none; }
+.ficha-btn-secondary { border:1px solid rgba(55,138,221,.4); color:var(--blue-mid); background:rgba(10,22,40,.65); backdrop-filter:blur(4px); }
+.ficha-btn-secondary:hover { background:rgba(55,138,221,.2); }
+.ficha-data-panel { background:var(--white); display:flex; flex-direction:column; border-left:1px solid var(--border); overflow-y:auto; }
+.ficha-tabs { display:flex; border-bottom:1px solid var(--border); flex-shrink:0; }
+.ficha-tab { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.06em; padding:10px 14px; border:none; background:none; cursor:pointer; color:var(--warm-gray); text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all .12s; white-space:nowrap; }
+.ficha-tab.active { color:var(--blue); border-bottom-color:var(--blue); background:var(--blue-pale); }
+.ficha-panel { display:none; padding:1.25rem; }
 .ficha-panel.active { display:block; }
-
-/* Ficha campos */
-.ficha-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-@media(max-width:600px) { .ficha-grid { grid-template-columns:1fr; } }
-.ficha-campo { }
-.ficha-campo.full { grid-column:1/-1; }
-.ficha-campo-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.12em; color:var(--blue); text-transform:uppercase; margin-bottom:3px; }
-.ficha-campo-valor { font-size:13px; color:var(--navy); line-height:1.5; min-height:20px; }
-.ficha-campo-valor.empty { color:var(--warm-gray); font-style:italic; font-size:12px; }
-.ficha-campo-link { color:var(--blue); text-decoration:none; font-size:12px; font-family:'IBM Plex Mono',monospace; word-break:break-all; }
-.ficha-campo-link:hover { text-decoration:underline; }
-.ficha-divider { border:none; border-top:1px solid var(--border); margin:1.25rem 0; }
-
-/* Admin panel */
-.admin-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,.1); border:1px solid rgba(201,168,76,.3); color:#C9A84C; font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; padding:3px 10px; text-transform:uppercase; margin-bottom:1rem; }
-.admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
-@media(max-width:600px) { .admin-grid { grid-template-columns:1fr; } }
-.admin-campo-label { font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:.1em; color:#C9A84C; text-transform:uppercase; margin-bottom:2px; }
-.admin-campo-valor { font-size:12px; color:#445566; line-height:1.4; }
-.admin-campo-valor.empty { color:var(--warm-gray); font-style:italic; }
-
-/* Navegación entre fichas */
-.ficha-nav { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:var(--navy); border-top:1px solid rgba(55,138,221,.15); }
-.ficha-nav-btn { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.05em; color:rgba(181,212,244,.5); background:none; border:none; cursor:pointer; text-transform:uppercase; transition:color .12s; padding:4px 0; }
-.ficha-nav-btn:hover:not(:disabled) { color:var(--blue-lt); }
-.ficha-nav-btn:disabled { opacity:.2; cursor:default; }
-.ficha-nav-pos { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em; }
+.ficha-campo { margin-bottom:1rem; }
+.ficha-campo-label { font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.14em; color:var(--blue); text-transform:uppercase; margin-bottom:3px; }
+.ficha-campo-valor { font-size:13px; color:var(--navy); line-height:1.5; }
+.ficha-campo-valor.empty { color:rgba(136,153,170,.55); font-style:italic; font-size:12px; }
+.ficha-divider { border:none; border-top:1px solid var(--border); margin:1rem 0; }
+.admin-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.25); color:#C9A84C; font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.1em; padding:3px 10px; text-transform:uppercase; margin-bottom:1rem; border-radius:2px; }
+.admin-campo-label { font-family:'IBM Plex Mono',monospace; font-size:8px; letter-spacing:.1em; color:#B8942A; text-transform:uppercase; margin-bottom:2px; }
+.admin-campo-valor { font-size:12px; color:#445566; line-height:1.4; margin-bottom:.875rem; }
+.admin-campo-valor.empty { color:rgba(136,153,170,.5); font-style:italic; }
 
 /* ── BUSCADOR MODAL ── */
 .search-modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.95); z-index:600; padding:2rem 1rem; overflow-y:auto; }
@@ -402,30 +391,49 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
 <!-- FICHA MODAL -->
 <div class="modal-overlay" id="fichaModal">
   <div class="modal" id="fichaContent">
-    <button class="modal-close" onclick="closeFicha()">✕</button>
-    <div class="ficha-header">
-      <div class="ficha-id" id="ficha-id"></div>
-      <div class="ficha-titulo" id="ficha-titulo"></div>
-      <div class="ficha-subtitulo" id="ficha-subtitulo"></div>
+    <!-- Topbar -->
+    <div class="ficha-topbar">
+      <div class="ficha-topbar-left">
+        <div class="ficha-id" id="ficha-id"></div>
+        <div class="ficha-titulo" id="ficha-titulo"></div>
+        <div class="ficha-subtitulo" id="ficha-subtitulo"></div>
+      </div>
+      <button class="modal-close" onclick="closeFicha()">✕</button>
     </div>
-    <div class="ficha-img-wrap" id="ficha-img-wrap"></div>
-    <div class="ficha-body">
-      <div class="ficha-tabs">
-        <button class="ficha-tab active" onclick="setFichaTab('publica',this)">Información pública</button>
-        <button class="ficha-tab" onclick="setFichaTab('admin',this)">Datos técnicos 🔒</button>
+    <!-- Layout imagen + ficha -->
+    <div class="ficha-layout">
+      <!-- Panel izquierdo: imagen grande -->
+      <div class="ficha-img-panel" id="ficha-img-panel">
+        <!-- Flechas navegación grandes -->
+        <button class="ficha-arrow ficha-arrow-prev" id="btn-prev" onclick="navFicha(-1)">
+          ‹
+          <span class="ficha-arrow-hint">Anterior</span>
+        </button>
+        <button class="ficha-arrow ficha-arrow-next" id="btn-next" onclick="navFicha(1)">
+          ›
+          <span class="ficha-arrow-hint">Siguiente</span>
+        </button>
+        <!-- Imagen -->
+        <div id="ficha-img-wrap" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;"></div>
+        <!-- Contador -->
+        <div class="ficha-pos-badge" id="ficha-nav-pos"></div>
+        <!-- Botones acción -->
+        <div class="ficha-img-actions" id="ficha-img-actions"></div>
       </div>
-      <div class="ficha-panel active" id="panel-publica">
-        <div class="ficha-grid" id="ficha-campos-publicos"></div>
+      <!-- Panel derecho: ficha técnica -->
+      <div class="ficha-data-panel">
+        <div class="ficha-tabs">
+          <button class="ficha-tab active" onclick="setFichaTab('publica',this)">Información pública</button>
+          <button class="ficha-tab" onclick="setFichaTab('admin',this)">Datos técnicos 🔒</button>
+        </div>
+        <div class="ficha-panel active" id="panel-publica">
+          <div id="ficha-campos-publicos"></div>
+        </div>
+        <div class="ficha-panel" id="panel-admin">
+          <div class="admin-badge">🔒 Datos de administración interna</div>
+          <div id="ficha-campos-admin"></div>
+        </div>
       </div>
-      <div class="ficha-panel" id="panel-admin">
-        <div class="admin-badge">🔒 Datos de administración interna</div>
-        <div class="admin-grid" id="ficha-campos-admin"></div>
-      </div>
-    </div>
-    <div class="ficha-nav">
-      <button class="ficha-nav-btn" id="btn-prev" onclick="navFicha(-1)">← Anterior</button>
-      <span class="ficha-nav-pos" id="ficha-nav-pos"></span>
-      <button class="ficha-nav-btn" id="btn-next" onclick="navFicha(1)">Siguiente →</button>
     </div>
   </div>
 </div>
@@ -647,12 +655,12 @@ function renderFicha(item, idx, total) {
   // Imagen
   const imgWrap = document.getElementById('ficha-img-wrap');
   imgWrap.innerHTML = dId
-    ? `<img src="${thumbUrl(dId)}" alt="${titulo}" style="max-height:380px;max-width:100%;object-fit:contain;" onerror="this.outerHTML='<div class=ficha-img-icon>📷</div>'">`
-    : `<div class="ficha-img-icon">📷</div>`;
-  imgWrap.innerHTML += `<div class="ficha-img-actions">
-    ${driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Abrir imagen completa →</a>` : ''}
-    <button class="ficha-btn ficha-btn-secondary" onclick="navigator.clipboard.writeText('${driveLink||''}').then(()=>alert('Link copiado'))">Copiar link</button>
-  </div>`;
+    ? `<img src="${thumbUrl(dId)}" alt="${titulo}" style="max-width:100%;max-height:100%;object-fit:contain;" onerror="this.outerHTML='<div style=font-size:4rem;opacity:.15>📷</div>'">`
+    : `<div style="font-size:4rem;opacity:.15">📷</div>`;
+
+  document.getElementById('ficha-img-actions').innerHTML =
+    (driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Abrir imagen →</a>` : '') +
+    `<button class="ficha-btn ficha-btn-secondary" onclick="navigator.clipboard.writeText('${driveLink||''}').then(()=>alert('Link copiado'))">Copiar link</button>`;
 
   // Campos públicos
   document.getElementById('ficha-campos-publicos').innerHTML =
@@ -660,8 +668,8 @@ function renderFicha(item, idx, total) {
     campoPublico('Año / Período', val(r[COL.anio]) || val(r[COL.periodo])) +
     campoPublico('Categoría temática', val(r[COL.categoria])) +
     campoPublico('Lugar / Espacio', val(r[COL.lugar])) +
-    campoPublico('Personas identificadas', val(r[COL.personas]), true) +
-    campoPublico('Descripción', val(r[COL.descripcion]), true) +
+    campoPublico('Personas identificadas', val(r[COL.personas])) +
+    campoPublico('Descripción', val(r[COL.descripcion])) +
     campoPublico('Fuente / Donante', val(r[COL.fuente])) +
     campoPublico('Derechos / Autoría', val(r[COL.derechos]));
 
@@ -675,7 +683,7 @@ function renderFicha(item, idx, total) {
     campoAdmin('ID Google Drive', item.driveId);
 
   // Navegación
-  document.getElementById('ficha-nav-pos').textContent = `${idx+1} de ${total}`;
+  document.getElementById('ficha-nav-pos').textContent = `${idx+1} / ${total}`;
   document.getElementById('btn-prev').disabled = idx === 0;
   document.getElementById('btn-next').disabled = idx === total-1;
 
@@ -692,11 +700,9 @@ function renderFichaVideo(item, idx, total) {
   document.getElementById('ficha-titulo').textContent = titulo;
   document.getElementById('ficha-subtitulo').textContent = `Video · ${val(r[VCOL.anio])||''}`;
 
-  document.getElementById('ficha-img-wrap').innerHTML = `
-    <div class="ficha-img-icon" style="font-size:3rem;padding:2rem;">🎬</div>
-    <div class="ficha-img-actions">
-      ${driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Ver video en Drive →</a>` : ''}
-    </div>`;
+  document.getElementById('ficha-img-wrap').innerHTML = `<div style="font-size:4rem;opacity:.15">🎬</div>`;
+  document.getElementById('ficha-img-actions').innerHTML =
+    driveLink ? `<a class="ficha-btn ficha-btn-primary" href="${driveLink}" target="_blank">Ver video en Drive →</a>` : '';
 
   document.getElementById('ficha-campos-publicos').innerHTML =
     campoPublico('Título', val(r[VCOL.titulo])) +
