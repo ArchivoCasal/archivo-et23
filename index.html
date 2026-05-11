@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archivo Histórico — Escuela Técnia N°23 Casal Calviño</title>
+<title>Archivo Histórico — Escuela Técnica N°23 Casal Calviño</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -74,10 +74,16 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--off-white); colo
 .search-btn { background:var(--blue); color:white; border:none; padding:.85rem 1.5rem; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.06em; cursor:pointer; text-transform:uppercase; }
 
 /* ── DECADE TABS ── */
-.decade-tabs { display:flex; gap:0; margin-bottom:1.25rem; border-bottom:1px solid var(--border); overflow-x:auto; }
-.decade-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; padding:9px 18px; border:none; background:none; cursor:pointer; color:var(--warm-gray); text-transform:uppercase; border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; transition:color .12s; }
-.decade-tab:hover { color:var(--blue); }
-.decade-tab.active { color:var(--blue); border-bottom-color:var(--blue); }
+/* Sidebar + galería */
+.galeria-layout { display:grid; grid-template-columns:180px 1fr; gap:1.5rem; align-items:start; }
+@media(max-width:700px) { .galeria-layout { grid-template-columns:1fr; } }
+.decade-sidebar { display:flex; flex-direction:column; gap:2px; position:sticky; top:80px; }
+@media(max-width:700px) { .decade-sidebar { flex-direction:row; flex-wrap:wrap; position:static; } }
+.decade-tab { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; padding:10px 14px; border:none; background:var(--color, transparent); cursor:pointer; color:var(--warm-gray); text-transform:uppercase; text-align:left; border-left:3px solid transparent; transition:all .12s; width:100%; border-radius:0 2px 2px 0; }
+.decade-tab:hover { color:var(--blue); background:var(--blue-pale); }
+.decade-tab.active { color:var(--blue); border-left-color:var(--blue); background:var(--blue-pale); font-weight:500; }
+@media(max-width:700px) { .decade-tab { border-left:none; border-bottom:2px solid transparent; width:auto; padding:8px 14px; } .decade-tab.active { border-bottom-color:var(--blue); } }
+.decade-tab-count { font-size:9px; opacity:.5; margin-left:4px; }
 
 /* ── GALLERY ── */
 .gallery-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:1px; background:rgba(55,138,221,.1); border:1px solid var(--border); }
@@ -236,7 +242,7 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
 
 <header class="topbar">
   <span class="topbar-brand" onclick="showMain()">
-    Escuela Técnia N°23 — Casal Calviño
+    Escuela Técnica N°23 — Casal Calviño
     <span class="topbar-sub">Archivo Histórico · Ciudad de Buenos Aires</span>
   </span>
   <nav class="topbar-nav">
@@ -253,7 +259,7 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
   <section class="hero">
     <p class="hero-eyebrow">Proyecto de memoria institucional</p>
     <h1 class="hero-title">Archivo Histórico<br><em>Casal Calviño</em></h1>
-    <p class="hero-subtitle">Escuela Técnia N°23 · Ciudad de Buenos Aires · En construcción</p>
+    <p class="hero-subtitle">Escuela Técnica N°23 · Ciudad de Buenos Aires · En construcción</p>
     <p class="hero-desc">Una colección de fotografías, documentos y testimonios que preservan la historia de nuestra escuela. Un proyecto colectivo abierto a la comunidad.</p>
     <div class="hero-actions">
       <span class="btn-primary" onclick="scrollTo('fotos')">Explorar el archivo</span>
@@ -275,14 +281,14 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
       <h2 class="section-title">Galería de imágenes</h2>
       <p class="section-desc">Fotografías organizadas por época. Hacé clic en cualquier imagen para ver su ficha técnica completa.</p>
     </div>
-    <div class="decade-tabs">
-      <button class="decade-tab active" onclick="setDecade('all',this)">Todas</button>
-      <button class="decade-tab" onclick="setDecade('70s',this)">Años 70</button>
-      <button class="decade-tab" onclick="setDecade('90s',this)">Años 90</button>
-      <button class="decade-tab" onclick="setDecade('edificio',this)">Edificio</button>
+    <div class="galeria-layout">
+      <!-- Sidebar de décadas -->
+      <div class="decade-sidebar" id="decadeSidebar"></div>
+      <!-- Secciones por década -->
+      <div id="galeriaSections">
+        <div class="loading-state" style="background:white;">Cargando colección<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span></div>
+      </div>
     </div>
-    <div class="gallery-grid" id="galleryGrid">
-      <div class="loading-state">
         Cargando colección<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
       </div>
     </div>
@@ -354,12 +360,12 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
     </div>
     <div class="about-grid">
       <div class="about-text">
-        <p>La <strong>Escuela Técnia N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con décadas de historia en la formación técnica y el compromiso con su comunidad.</p>
+        <p>La <strong>Escuela Técnica N°23 Casal Calviño</strong> es una institución educativa de la Ciudad de Buenos Aires con décadas de historia en la formación técnica y el compromiso con su comunidad.</p>
         <p>Este archivo nació de la necesidad de <strong>preservar y dar acceso</strong> a los materiales históricos de la escuela: fotografías, documentos y testimonios que de otro modo podrían perderse.</p>
         <p>El proyecto es <strong>abierto y colaborativo</strong>. Si tenés materiales podés contribuir escribiéndonos. Cada aporte enriquece esta memoria colectiva.</p>
       </div>
       <div class="timeline">
-        <div class="timeline-item"><div class="timeline-year">Fundación</div><div class="timeline-text">Creación de la Escuela Técnia N°23 en la Ciudad de Buenos Aires.</div></div>
+        <div class="timeline-item"><div class="timeline-year">Fundación</div><div class="timeline-text">Creación de la Escuela Técnica N°23 en la Ciudad de Buenos Aires.</div></div>
         <div class="timeline-item"><div class="timeline-year">Años 70</div><div class="timeline-text">Primeras fotografías documentadas. Talleres, actos y actividades institucionales.</div></div>
         <div class="timeline-item"><div class="timeline-year">Años 90</div><div class="timeline-text">Nueva etapa institucional. Ampliación de la oferta educativa.</div></div>
         <div class="timeline-item"><div class="timeline-year">2024 — hoy</div><div class="timeline-text">Inicio del proyecto de archivo histórico. Digitalización y recopilación activa de materiales.</div></div>
@@ -381,7 +387,7 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
   </section>
 
   <footer>
-    <p>Archivo Histórico — Escuela Técnia N°23 Casal Calviño · Ciudad de Buenos Aires</p>
+    <p>Archivo Histórico — Escuela Técnica N°23 Casal Calviño · Ciudad de Buenos Aires</p>
     <p>Proyecto de recuperación de memoria institucional · En construcción permanente</p>
     <p style="margin-top:8px;"><a href="https://drive.google.com/drive/folders/1UCOa8UzbN5j9IHY0GJ2wLHTPBo5Zyi9g" target="_blank">Ver archivo completo en Google Drive</a></p>
   </footer>
@@ -536,48 +542,114 @@ function updateStats() {
   document.getElementById('stat-catalogadas').textContent = catalogadas;
 }
 
-function setDecade(dec, btn) {
-  activeDecade = dec;
-  document.querySelectorAll('.decade-tab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  renderGallery();
+const PREVIEW_COUNT = 5;
+const expandedDecades = {};
+
+function buildSidebar() {
+  const sidebar = document.getElementById('decadeSidebar');
+  const decades = Object.keys(SHEETS).filter(k => k !== 'videos');
+  sidebar.innerHTML = decades.map((dec, i) => {
+    const items = allItems.filter(it => !it.isVideo && it.decade === dec);
+    return `<button class="decade-tab ${i===0?'active':''}" id="tab-${dec}" onclick="scrollToDecade('${dec}', this)">
+      ${SHEETS[dec].icon} ${SHEETS[dec].label}
+      <span class="decade-tab-count">(${items.length})</span>
+    </button>`;
+  }).join('');
 }
 
+function scrollToDecade(dec, btn) {
+  document.querySelectorAll('.decade-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const section = document.getElementById('section-' + dec);
+  if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function makeGalleryItem(item, fi) {
+  const r = item.row;
+  const titulo = r[COL.titulo]?.trim() || r[COL.nombre] || 'Sin título';
+  const anio = r[COL.anio]?.trim() || r[COL.periodo] || '';
+  const catalogada = r[COL.titulo]?.trim();
+  const thumb = item.driveId ? thumbUrl(item.driveId) : null;
+  return `<div class="gallery-item" onclick="openFicha(${fi})">
+    <div class="gallery-thumb">
+      ${thumb ? `<img src="${thumb}" alt="${titulo}" class="loading" onload="this.classList.add('loaded');this.classList.remove('loading')" onerror="this.style.display='none'">` : ''}
+      <span class="gallery-thumb-icon">${SHEETS[item.decade]?.icon||'📷'}</span>
+      <div class="gallery-overlay"><span class="gallery-overlay-label">Ver ficha</span></div>
+    </div>
+    <div class="gallery-info">
+      <div class="gallery-decade">${SHEETS[item.decade]?.label||''}</div>
+      <div class="gallery-title">${titulo}</div>
+      <div class="gallery-date">${anio}</div>
+      <span class="gallery-status ${catalogada?'catalogada':''}">${catalogada?'Catalogada':'Sin catalogar'}</span>
+    </div>
+  </div>`;
+}
+
+function renderDecadeSection(dec, decadeItems, expanded) {
+  const visible = expanded ? decadeItems : decadeItems.slice(0, PREVIEW_COUNT);
+  const hasMore = decadeItems.length > PREVIEW_COUNT;
+  const itemsHTML = visible.map(item => makeGalleryItem(item, item._filteredIndex)).join('');
+  const verMasBtn = (!expanded && hasMore)
+    ? `<div style="grid-column:1/-1; text-align:center; padding:1rem 0;">
+        <button onclick="expandDecade('${dec}')" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:var(--blue-pale); border:1px solid var(--border-mid); color:var(--blue); padding:10px 28px; cursor:pointer; transition:all .12s;">
+          Ver las ${decadeItems.length - PREVIEW_COUNT} fotos restantes ↓
+        </button>
+      </div>`
+    : (hasMore
+        ? `<div style="grid-column:1/-1; text-align:center; padding:.5rem 0;">
+            <button onclick="collapseDecade('${dec}')" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; background:transparent; border:1px solid var(--border); color:var(--warm-gray); padding:8px 22px; cursor:pointer;">
+              Mostrar menos ↑
+            </button>
+          </div>`
+        : '');
+  return `<div class="gallery-grid" style="margin-bottom:0;">${itemsHTML}${verMasBtn}</div>`;
+}
+
+function expandDecade(dec) {
+  expandedDecades[dec] = true;
+  renderGallery();
+  setTimeout(() => document.getElementById('section-' + dec)?.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+}
+
+function collapseDecade(dec) {
+  expandedDecades[dec] = false;
+  renderGallery();
+  setTimeout(() => document.getElementById('section-' + dec)?.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+}
+
+function setDecade(dec, btn) {} // kept for compatibility
+
 function getVisibleItems() {
-  return allItems.filter(i => {
-    if (i.isVideo) return false;
-    if (activeDecade === 'all') return true;
-    return i.decade === activeDecade;
-  });
+  return allItems.filter(i => !i.isVideo);
 }
 
 function renderGallery() {
   filteredItems = getVisibleItems();
-  const grid = document.getElementById('galleryGrid');
+  // Assign filtered indexes for ficha navigation
+  filteredItems.forEach((item, fi) => { item._filteredIndex = fi; });
+
+  const container = document.getElementById('galeriaSections');
   if (!filteredItems.length) {
-    grid.innerHTML = '<div class="loading-state">No hay ítems en esta categoría.</div>';
+    container.innerHTML = '<div class="loading-state" style="background:white;">Cargando colección...</div>';
     return;
   }
-  grid.innerHTML = filteredItems.map((item, fi) => {
-    const r = item.row;
-    const titulo = r[COL.titulo] && r[COL.titulo].trim() ? r[COL.titulo] : r[COL.nombre];
-    const anio = r[COL.anio] && r[COL.anio].trim() ? r[COL.anio] : r[COL.periodo];
-    const catalogada = r[COL.titulo] && r[COL.titulo].trim();
-    const thumb = item.driveId ? thumbUrl(item.driveId) : null;
-    return `<div class="gallery-item" onclick="openFicha(${fi})">
-      <div class="gallery-thumb">
-        ${thumb ? `<img src="${thumb}" alt="${titulo}" class="loading" onload="this.classList.add('loaded');this.classList.remove('loading')" onerror="this.style.display='none'">` : ''}
-        <span class="gallery-thumb-icon">${SHEETS[item.decade]?.icon||'📷'}</span>
-        <div class="gallery-overlay"><span class="gallery-overlay-label">Ver ficha</span></div>
+
+  const decades = Object.keys(SHEETS).filter(k => k !== 'videos');
+  container.innerHTML = decades.map(dec => {
+    const decItems = filteredItems.filter(i => i.decade === dec);
+    if (!decItems.length) return '';
+    const expanded = !!expandedDecades[dec];
+    return `<div id="section-${dec}" style="margin-bottom:2.5rem; scroll-margin-top:90px;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:.75rem;">
+        <span style="font-size:1.1rem;">${SHEETS[dec].icon}</span>
+        <span style="font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--navy);">${SHEETS[dec].label}</span>
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em;">${decItems.length} fotografías</span>
       </div>
-      <div class="gallery-info">
-        <div class="gallery-decade">${SHEETS[item.decade]?.label||''}</div>
-        <div class="gallery-title">${titulo}</div>
-        <div class="gallery-date">${anio||''}</div>
-        <span class="gallery-status ${catalogada?'catalogada':''}">${catalogada?'Catalogada':'Sin catalogar'}</span>
-      </div>
+      ${renderDecadeSection(dec, decItems, expanded)}
     </div>`;
   }).join('');
+
+  buildSidebar();
 }
 
 function renderVideos() {
