@@ -484,13 +484,27 @@ function parseCSV(text) {
     let cur = '', inQ = false;
     for (let i=0; i<line.length; i++) {
       const c = line[i];
-      if (c==='"') { inQ=!inQ; }
-      else if (c===',' && !inQ) { cols.push(cur.trim()); cur=''; }
-      else { cur+=c; }
+      if (c==='"') {
+        if (inQ && line[i+1]==='"') { cur+='"'; i++; } // escaped quote
+        else { inQ=!inQ; }
+      } else if (c===',' && !inQ) {
+        cols.push(cur.trim());
+        cur='';
+      } else {
+        cur+=c;
+      }
     }
     cols.push(cur.trim());
     return cols;
-  }).filter(r => r[0] && r[0].trim());
+  }).filter(r => r.some(c => c && c.trim())); // keep rows with any content
+}
+
+// Find Drive link anywhere in the row (robust against column shifts)
+function findDriveLink(row) {
+  for (const cell of row) {
+    if (cell && cell.includes('drive.google.com/file/d/')) return cell.trim();
+  }
+  return null;
 }
 
 async function fetchSheet(sheetName) {
@@ -516,7 +530,10 @@ async function loadAll() {
     try {
       const rows = await fetchSheet(SHEETS[dec].name);
       rows.forEach((r,i) => {
-        const id = driveId(r[COL.link]);
+        const linkVal = findDriveLink(r) || r[COL.link];
+        const id = driveId(linkVal);
+        // Also update the row's link column to the found link for consistency
+        r[COL.link] = linkVal || '';
         allItems.push({ decade:dec, row:r, driveId:id, index:allItems.length });
       });
     } catch(e) { console.warn('Error cargando', dec, e); }
@@ -526,7 +543,9 @@ async function loadAll() {
   try {
     const vrows = await fetchSheet(SHEETS.videos.name);
     vrows.forEach((r,i) => {
-      allItems.push({ decade:'video', row:r, driveId:driveId(r[VCOL.link]), index:allItems.length, isVideo:true });
+      const vLinkVal = findDriveLink(r) || r[VCOL.link];
+      r[VCOL.link] = vLinkVal || '';
+      allItems.push({ decade:'video', row:r, driveId:driveId(vLinkVal), index:allItems.length, isVideo:true });
     });
   } catch(e) { console.warn('Error cargando videos', e); }
 
