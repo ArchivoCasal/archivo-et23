@@ -510,7 +510,25 @@ let activeDecade = 'all';
 let currentFichaIndex = 0;
 let filteredItems = [];
 
+const SHEET_GIDS = {
+  'Fotos_40s':      '1216160043',
+  'Fotos_50s':      '120822477',
+  'Fotos_60s':      '77668965',
+  'Fotos_70s':      '1190010856',
+  'Fotos_80s':      '1104137511',
+  'Fotos_90s':      '798536067',
+  'Fotos_00s':      '463769847',
+  'Fotos_10s':      '1784848793',
+  'Fotos_20s':      '1450383717',
+  'Fotos_Edificio': '1804604176',
+  'Videos':         '0',
+};
+
 function csvUrl(sheetName) {
+  const gid = SHEET_GIDS[sheetName];
+  if (gid) {
+    return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${gid}`;
+  }
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
 }
 
