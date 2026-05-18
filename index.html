@@ -585,7 +585,7 @@ function thumbUrl(id) {
 
 async function loadAll() {
   allItems = [];
-  const decades = ['70s','90s','edificio'];
+  const decades = Object.keys(SHEETS).filter(k => k !== 'videos');
   for (const dec of decades) {
     try {
       const rows = await fetchSheet(SHEETS[dec].name);
