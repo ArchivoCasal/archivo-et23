@@ -533,34 +533,39 @@ function csvUrl(sheetName) {
 }
 
 function parseCSV(text) {
-  const lines = text.trim().split('\n');
-  return lines.slice(3).map(line => { // skip rows 1-3 (title, subtitle, headers)
+  // Normalize line endings
+  const lines = text.trim().replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+  // Skip first 3 rows (title, subtitle, headers)
+  return lines.slice(3).map(line => {
     const cols = [];
     let cur = '', inQ = false;
-    for (let i=0; i<line.length; i++) {
+    for (let i = 0; i < line.length; i++) {
       const c = line[i];
-      if (c==='"') {
-        if (inQ && line[i+1]==='"') { cur+='"'; i++; } // escaped quote
-        else { inQ=!inQ; }
-      } else if (c===',' && !inQ) {
+      if (c === '"') {
+        if (inQ && line[i+1] === '"') { cur += '"'; i++; } // escaped quote ""
+        else { inQ = !inQ; }                                // toggle quote mode
+      } else if (c === ',' && !inQ) {
         cols.push(cur.trim());
-        cur='';
+        cur = '';
       } else {
-        cur+=c;
+        cur += c;
       }
     }
     cols.push(cur.trim());
     return cols;
-  }).filter(r => r.some(c => c && c.trim())); // keep rows with any content
+  }).filter(r => r.some(c => c && c.trim()));
 }
 
-// Find Drive link anywhere in the row (robust against column shifts)
+// Find Drive link anywhere in the row — robust against column shifts
 function findDriveLink(row) {
   for (const cell of row) {
     if (cell && cell.includes('drive.google.com/file/d/')) return cell.trim();
   }
   return null;
 }
+
+// Find Drive link anywhere in the row (robust against column shifts)
+
 
 async function fetchSheet(sheetName) {
   const res = await fetch(csvUrl(sheetName));
