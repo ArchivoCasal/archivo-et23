@@ -246,9 +246,9 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
     <span class="topbar-sub">Archivo Histórico · Ciudad de Buenos Aires</span>
   </span>
   <nav class="topbar-nav">
-    <a onclick="showMain(); setTimeout(()=>scrollTo('fotos'),100)">Fotografías</a>
-    <a onclick="showMain(); setTimeout(()=>scrollTo('videos'),100)">Videos</a>
-    <a onclick="showMain(); setTimeout(()=>scrollTo('historia'),100)">Historia</a>
+    <a href="#fotos" onclick="document.getElementById('fotos').scrollIntoView({behavior:'smooth'});return false;">Fotografías</a>
+    <a href="#videos" onclick="document.getElementById('videos').scrollIntoView({behavior:'smooth'});return false;">Videos</a>
+    <a href="#historia" onclick="document.getElementById('historia').scrollIntoView({behavior:'smooth'});return false;">Historia</a>
     <a onclick="openSearchModal()" class="nav-cta">🔍 Buscador</a>
     <a onclick="scrollTo('colabora')" class="nav-cta">Colaborá</a>
   </nav>
@@ -263,14 +263,14 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
     <p class="hero-subtitle">Escuela Técnica N°23 · Ciudad de Buenos Aires · En construcción</p>
     <p class="hero-desc">Una colección de fotografías, documentos y testimonios que preservan la historia de nuestra escuela. Un proyecto colectivo abierto a la comunidad.</p>
     <div class="hero-actions">
-      <span class="btn-primary" onclick="scrollTo('fotos')">Explorar el archivo</span>
+
       <span class="btn-secondary" onclick="openSearchModal()">🔍 Buscar en el archivo</span>
     </div>
   </section>
 
   <div class="stats-strip">
     <div class="stat-item"><span class="stat-n" id="stat-fotos">—</span><span class="stat-l">Fotografías</span></div>
-    <div class="stat-item"><span class="stat-n">3</span><span class="stat-l">Décadas</span></div>
+    <div class="stat-item"><span class="stat-n" id="stat-decadas">—</span><span class="stat-l">Décadas</span></div>
     <div class="stat-item"><span class="stat-n">4</span><span class="stat-l">Videos</span></div>
     <div class="stat-item"><span class="stat-n" id="stat-catalogadas">—</span><span class="stat-l">Catalogadas</span></div>
   </div>
@@ -620,6 +620,9 @@ function updateStats() {
   const catalogadas = fotos.filter(i=> i.row[COL.titulo] && i.row[COL.titulo].trim()).length;
   document.getElementById('stat-fotos').textContent = fotos.length;
   document.getElementById('stat-catalogadas').textContent = catalogadas;
+  // Count decades that actually have items
+  const decadasConItems = Object.keys(SHEETS).filter(k => k !== 'videos' && allItems.some(i => i.decade === k)).length;
+  document.getElementById('stat-decadas').textContent = decadasConItems;
 }
 
 const PREVIEW_COUNT = 4;
