@@ -159,6 +159,15 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--off-white); colo
 .admin-campo-valor { font-size:12px; color:#445566; line-height:1.4; margin-bottom:.875rem; }
 .admin-campo-valor.empty { color:rgba(136,153,170,.5); font-style:italic; }
 
+/* ── COLECCIONES ── */
+.coleccion-card { background:var(--white); border:1px solid var(--border); padding:1.5rem 1.25rem; cursor:pointer; transition:all .15s; position:relative; overflow:hidden; }
+.coleccion-card:hover { border-color:var(--blue); box-shadow:0 4px 20px rgba(55,138,221,.12); transform:translateY(-2px); }
+.coleccion-card-icon { font-size:2rem; margin-bottom:.75rem; display:block; }
+.coleccion-card-name { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--navy); margin-bottom:4px; }
+.coleccion-card-count { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em; }
+.coleccion-card-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--blue); transform:scaleX(0); transition:transform .15s; transform-origin:left; }
+.coleccion-card:hover .coleccion-card-bar { transform:scaleX(1); }
+
 /* ── BUSCADOR MODAL ── */
 .search-modal-overlay { display:none; position:fixed; inset:0; background:rgba(5,10,20,.95); z-index:600; padding:2rem 1rem; overflow-y:auto; }
 .search-modal-overlay.open { display:flex; flex-direction:column; align-items:center; }
@@ -236,6 +245,15 @@ footer p { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing
 footer a { color:rgba(55,138,221,.5); text-decoration:none; }
 
 @media(max-width:600px) { .topbar-nav{display:none;} .stats-strip{flex-wrap:wrap;} .stat-item{border-right:none;} .gallery-grid{grid-template-columns:repeat(2,1fr);} }
+
+/* ── COLECCIONES ── */
+.coleccion-card { background:var(--white); border:1px solid var(--border); padding:1.5rem 1.25rem; cursor:pointer; transition:all .15s; position:relative; overflow:hidden; }
+.coleccion-card:hover { border-color:var(--blue); box-shadow:0 4px 20px rgba(55,138,221,.12); transform:translateY(-2px); }
+.coleccion-card-icon { font-size:2rem; margin-bottom:.75rem; display:block; }
+.coleccion-card-name { font-family:'Playfair Display',serif; font-size:1.1rem; color:var(--navy); margin-bottom:4px; }
+.coleccion-card-count { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em; }
+.coleccion-card-bar { position:absolute; bottom:0; left:0; right:0; height:3px; background:var(--blue); transform:scaleX(0); transition:transform .15s; transform-origin:left; }
+.coleccion-card:hover .coleccion-card-bar { transform:scaleX(1); }
 </style>
 </head>
 <body>
@@ -247,6 +265,7 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
   </span>
   <nav class="topbar-nav">
     <a href="#fotos" onclick="document.getElementById('fotos').scrollIntoView({behavior:'smooth'});return false;">Fotografías</a>
+    <a href="#colecciones" onclick="document.getElementById('colecciones').scrollIntoView({behavior:'smooth'});return false;">Colecciones</a>
     <a href="#videos" onclick="document.getElementById('videos').scrollIntoView({behavior:'smooth'});return false;">Videos</a>
     <a href="#historia" onclick="document.getElementById('historia').scrollIntoView({behavior:'smooth'});return false;">Historia</a>
     <a onclick="openSearchModal()" class="nav-cta">🔍 Buscador</a>
@@ -291,6 +310,24 @@ footer a { color:rgba(55,138,221,.5); text-decoration:none; }
       </div>
     </div>
         Cargando colección<span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLECCIONES -->
+  <section id="colecciones" style="padding:4rem 2rem; background:var(--blue-pale); border-top:1px solid var(--border);">
+    <div style="max-width:1100px; margin:0 auto;">
+      <div class="section-label">Colecciones temáticas</div>
+      <h2 class="section-title">Explorar por tema</h2>
+      <p class="section-desc">Las colecciones reúnen fotografías de distintas épocas agrupadas por tema. Una foto puede pertenecer a más de una colección.</p>
+      <div id="colecciones-cards" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; margin-top:2rem;"></div>
+      <div id="coleccion-detalle" style="display:none; margin-top:2rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+          <button onclick="cerrarColeccion()" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; background:none; border:1px solid var(--border-mid); color:var(--warm-gray); padding:8px 16px; cursor:pointer;">← Volver</button>
+          <h3 id="coleccion-titulo" style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); margin:0;"></h3>
+          <span id="coleccion-count" style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--warm-gray); letter-spacing:.08em;"></span>
+        </div>
+        <div class="gallery-grid" id="coleccion-grid"></div>
       </div>
     </div>
   </section>
@@ -613,6 +650,7 @@ async function loadAll() {
   updateStats();
   renderGallery();
   renderVideos();
+  renderColecciones();
 }
 
 function updateStats() {
@@ -968,6 +1006,79 @@ function onSearchClick(globalIdx) {
 }
 
 // ── HELPERS ──
+// ── COLECCIONES ────────────────────────────────────────────
+const CATEGORIAS = [
+  { key:'Edificio', icon:'🏛', label:'Edificio' },
+  { key:'Alumnos',  icon:'🎓', label:'Alumnos' },
+  { key:'Taller',   icon:'🔧', label:'Taller' },
+  { key:'Actos',    icon:'🎭', label:'Actos' },
+  { key:'Docentes', icon:'📚', label:'Docentes' },
+];
+
+function itemMatchCategoria(item, key) {
+  const cat = (item.row[COL.categoria] || '').toLowerCase();
+  return cat.split(/[,;/]+/).map(s=>s.trim()).some(s => s === key.toLowerCase());
+}
+
+function renderColecciones() {
+  const cards = document.getElementById('colecciones-cards');
+  if (!cards) return;
+  const fotos = allItems.filter(i => !i.isVideo);
+  cards.innerHTML = CATEGORIAS.map(cat => {
+    const count = fotos.filter(i => itemMatchCategoria(i, cat.key)).length;
+    return '<div class="coleccion-card" onclick="abrirColeccion('' + cat.key + '')">'
+      + '<span class="coleccion-card-icon">' + cat.icon + '</span>'
+      + '<div class="coleccion-card-name">' + cat.label + '</div>'
+      + '<div class="coleccion-card-count">' + count + ' fotografía' + (count !== 1 ? 's' : '') + '</div>'
+      + '<div class="coleccion-card-bar"></div>'
+      + '</div>';
+  }).join('');
+}
+
+function abrirColeccion(key) {
+  const cat = CATEGORIAS.find(c => c.key === key);
+  const fotos = allItems.filter(i => !i.isVideo && itemMatchCategoria(i, key));
+  document.getElementById('colecciones-cards').style.display = 'none';
+  document.getElementById('coleccion-detalle').style.display = 'block';
+  document.getElementById('coleccion-titulo').textContent = cat.icon + ' ' + cat.label;
+  document.getElementById('coleccion-count').textContent = fotos.length + ' fotografía' + (fotos.length !== 1 ? 's' : '');
+  const grid = document.getElementById('coleccion-grid');
+  if (!fotos.length) {
+    grid.innerHTML = '<div class="loading-state" style="background:white; grid-column:1/-1;">No hay fotografías en esta colección aún.<br><span style="font-size:11px;opacity:.6;">Completá el campo Categoría temática en el Sheet.</span></div>';
+    document.getElementById('colecciones').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  // assign filteredIndex for ficha navigation within collection
+  fotos.forEach((item, fi) => { item._coleccionIndex = fi; });
+  grid.innerHTML = fotos.map((item, fi) => {
+    const r = item.row;
+    const titulo = (r[COL.titulo] && r[COL.titulo].trim()) ? r[COL.titulo] : (r[COL.nombre] || 'Sin título');
+    const anio = (r[COL.anio] && r[COL.anio].trim()) ? r[COL.anio] : (r[COL.periodo] || '');
+    const catalogada = r[COL.titulo] && r[COL.titulo].trim();
+    const thumb = item.driveId ? thumbUrl(item.driveId) : null;
+    const globalFi = filteredItems.indexOf(item);
+    const navIdx = globalFi >= 0 ? globalFi : (item._filteredIndex || 0);
+    return '<div class="gallery-item" onclick="openFicha(' + navIdx + ')">'
+      + '<div class="gallery-thumb">'
+      + (thumb ? '<img src="' + thumb + '" alt="' + titulo + '" class="loading" onload="this.classList.add('loaded');this.classList.remove('loading')" onerror="this.style.display='none'">' : '')
+      + '<span class="gallery-thumb-icon">' + (SHEETS[item.decade]?.icon||'📷') + '</span>'
+      + '<div class="gallery-overlay"><span class="gallery-overlay-label">Ver ficha</span></div>'
+      + '</div>'
+      + '<div class="gallery-info">'
+      + '<div class="gallery-decade">' + (SHEETS[item.decade]?.label||'') + '</div>'
+      + '<div class="gallery-title">' + titulo + '</div>'
+      + '<div class="gallery-date">' + anio + '</div>'
+      + '<span class="gallery-status ' + (catalogada?'catalogada':'') + '">' + (catalogada?'Catalogada':'Sin catalogar') + '</span>'
+      + '</div></div>';
+  }).join('');
+  document.getElementById('colecciones').scrollIntoView({behavior:'smooth'});
+}
+
+function cerrarColeccion() {
+  document.getElementById('colecciones-cards').style.display = 'grid';
+  document.getElementById('coleccion-detalle').style.display = 'none';
+}
+
 function scrollTo(id) { document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
 function showMain() { window.scrollTo({top:0,behavior:'smooth'}); }
 
