@@ -630,7 +630,7 @@ async function loadAll() {
       rows.forEach((r,i) => {
         const linkVal = findDriveLink(r) || r[COL.link];
         const id = driveId(linkVal);
-        // Also update the row's link column to the found link for consistency
+        // Also update the row link column to the found link for consistency
         r[COL.link] = linkVal || '';
         allItems.push({ decade:dec, row:r, driveId:id, index:allItems.length });
       });
