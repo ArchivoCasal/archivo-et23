@@ -1024,14 +1024,16 @@ function renderColecciones() {
   const cards = document.getElementById('colecciones-cards');
   if (!cards) return;
   const fotos = allItems.filter(i => !i.isVideo);
-  cards.innerHTML = CATEGORIAS.map(cat => {
-    const count = fotos.filter(i => itemMatchCategoria(i, cat.key)).length;
-    return '<div class="coleccion-card" onclick="abrirColeccion('' + cat.key + '')">'
-      + '<span class="coleccion-card-icon">' + cat.icon + '</span>'
-      + '<div class="coleccion-card-name">' + cat.label + '</div>'
-      + '<div class="coleccion-card-count">' + count + ' fotografía' + (count !== 1 ? 's' : '') + '</div>'
-      + '<div class="coleccion-card-bar"></div>'
-      + '</div>';
+  cards.innerHTML = CATEGORIAS.map(function(cat) {
+    const count = fotos.filter(function(i) { return itemMatchCategoria(i, cat.key); }).length;
+    return [
+      '<div class="coleccion-card" onclick="abrirColeccion(\'' + cat.key + '\')">',
+      '<span class="coleccion-card-icon">' + cat.icon + '</span>',
+      '<div class="coleccion-card-name">' + cat.label + '</div>',
+      '<div class="coleccion-card-count">' + count + ' fotografí' + (count !== 1 ? 'as' : 'a') + '</div>',
+      '<div class="coleccion-card-bar"></div>',
+      '</div>'
+    ].join('');
   }).join('');
 }
 
@@ -1060,7 +1062,7 @@ function abrirColeccion(key) {
     const navIdx = globalFi >= 0 ? globalFi : (item._filteredIndex || 0);
     return '<div class="gallery-item" onclick="openFicha(' + navIdx + ')">'
       + '<div class="gallery-thumb">'
-      + (thumb ? '<img src="' + thumb + '" alt="' + titulo + '" class="loading" onload="this.classList.add('loaded');this.classList.remove('loading')" onerror="this.style.display='none'">' : '')
+      + (thumb ? '<img src="' + thumb + '" alt="' + titulo + '" class="loading" onload="this.classList.add(\'loaded\');this.classList.remove(\'loading\')" onerror="this.style.display=\'none\'">' : '')
       + '<span class="gallery-thumb-icon">' + (SHEETS[item.decade]?.icon||'📷') + '</span>'
       + '<div class="gallery-overlay"><span class="gallery-overlay-label">Ver ficha</span></div>'
       + '</div>'
